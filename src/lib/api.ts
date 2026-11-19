@@ -5,7 +5,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 class ApiClient {
   private client: AxiosInstance;
-  private token: string | null = null;
 
   constructor() {
     this.client = axios.create({
@@ -16,21 +15,10 @@ class ApiClient {
       withCredentials: true,
     });
 
-    this.client.interceptors.request.use(
-      (config: InternalAxiosRequestConfig) => {
-        if (this.token) {
-          config.headers.Authorization = `Bearer ${this.token}`;
-        }
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
-
     this.client.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
         if (error.response?.status === 401) {
-          this.clearToken();
           if (typeof window !== 'undefined') {
             window.location.href = '/auth/signin';
           }
@@ -38,83 +26,6 @@ class ApiClient {
         return Promise.reject(error);
       }
     );
-  }
-
-  setToken(token: string | null) {
-    this.token = token;
-    if (typeof window !== 'undefined') {
-      if (token) {
-        localStorage.setItem('token', token);
-      } else {
-        localStorage.removeItem('token');
-      }
-    }
-  }
-
-  getToken(): string | null {
-    if (!this.token && typeof window !== 'undefined') {
-      this.token = localStorage.getItem('token');
-    }
-    return this.token;
-  }
-
-  clearToken() {
-    this.token = null;
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    }
-  }
-
-  async initAuth() {
-    const token = this.getToken();
-    if (token) {
-      try {
-        await this.getMe();
-      } catch {
-        this.clearToken();
-      }
-    }
-  }
-
-  // Auth
-  async register(data: { name: string; email: string; password: string; image?: string }) {
-    const response = await this.client.post<ApiResponse<{ user: User; token: string }>>('/auth/register', data);
-    if (response.data.data?.token) {
-      this.setToken(response.data.data.token);
-    }
-    return response.data;
-  }
-
-  async login(data: { email: string; password: string }) {
-    const response = await this.client.post<ApiResponse<{ user: User; token: string }>>('/auth/login', data);
-    if (response.data.data?.token) {
-      this.setToken(response.data.data.token);
-    }
-    return response.data;
-  }
-
-  async googleAuth(idToken: string) {
-    const response = await this.client.post<ApiResponse<{ user: User; token: string }>>('/auth/google', { idToken });
-    if (response.data.data?.token) {
-      this.setToken(response.data.data.token);
-    }
-    return response.data;
-  }
-
-  async getMe() {
-    const response = await this.client.get<ApiResponse<User>>('/auth/me');
-    return response.data;
-  }
-
-  async logout() {
-    await this.client.post('/auth/logout');
-    this.clearToken();
-  }
-
-  async updateProfile(data: { name?: string; image?: string; phone?: string }) {
-    const response = await this.client.put<ApiResponse<User>>('/auth/profile', data);
-    return response.data;
   }
 
   // Services
