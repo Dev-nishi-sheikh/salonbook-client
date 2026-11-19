@@ -293,7 +293,7 @@ function UserRow({ user, onBlock, onRole, currentUserId }: { user: UserType; onB
       </td>
       <td className="py-4 hidden md:table-cell text-gray-600">{user.email}</td>
       <td className="py-4 hidden lg:table-cell">
-        <Badge variant={user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}>
+        <Badge variant={user.role === 'admin' ? 'active' : 'pending'}>
           {user.role}
         </Badge>
       </td>

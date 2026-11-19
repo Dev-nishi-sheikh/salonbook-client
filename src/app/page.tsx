@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Shield, Clock, Users } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';

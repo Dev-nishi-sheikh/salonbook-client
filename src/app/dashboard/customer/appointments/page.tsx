@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, CreditCard, Loader2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Navbar } from '@/components/layout/Navbar';
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { api } from '@/lib/api';
-import { Appointment, AppointmentStatus, PaymentStatus } from '@/types';
+import { Appointment, type AppointmentStatus as AppointmentStatusType, type PaymentStatus as PaymentStatusType } from '@/types';
 import { formatCurrency, formatDate, formatTime, getStatusBadgeClass, getStatusLabel, canCancelAppointment, canPayForAppointment, classNames } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -21,7 +22,7 @@ export default function CustomerAppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
-  const [statusFilter, setStatusFilter] = useState<AppointmentStatus | ''>('');
+  const [statusFilter, setStatusFilter] = useState<AppointmentStatusType | ''>('');
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [isCancelling, setIsCancelling] = useState(false);
@@ -60,7 +61,7 @@ export default function CustomerAppointmentsPage() {
       if (response.success) {
         toast.success('Appointment cancelled successfully');
         setAppointments(prev => prev.map(a => 
-          a._id === selectedAppointment._id ? { ...a, status: 'cancelled' as AppointmentStatus } : a
+          a._id === selectedAppointment._id ? { ...a, status: 'cancelled' as AppointmentStatusType } : a
         ));
         setShowCancelModal(false);
         setSelectedAppointment(null);
@@ -114,7 +115,7 @@ export default function CustomerAppointmentsPage() {
     );
   }
 
-  const statusFilters: { value: AppointmentStatus | ''; label: string }[] = [
+  const statusFilters: { value: AppointmentStatusType | ''; label: string }[] = [
     { value: '', label: 'All' },
     { value: 'pending', label: 'Pending' },
     { value: 'confirmed', label: 'Confirmed' },
@@ -255,8 +256,8 @@ export default function CustomerAppointmentsPage() {
 
 function AppointmentCard({ appointment, onCancel, onPay }: { appointment: Appointment; onCancel: () => void; onPay: () => void }) {
   const service = appointment.serviceId as any;
-  const status = appointment.status as AppointmentStatus;
-  const paymentStatus = appointment.paymentStatus as PaymentStatus;
+  const status = appointment.status as AppointmentStatusType;
+  const paymentStatus = appointment.paymentStatus as PaymentStatusType;
 
   return (
     <Card className="overflow-hidden">

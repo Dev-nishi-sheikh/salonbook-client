@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Modal } from '@/components/ui/Modal';
 import { api } from '@/lib/api';
-import { Service, ServiceStatus } from '@/types';
+import { Service, ServiceStatus, type ServiceStatus as ServiceStatusType } from '@/types';
 import { formatCurrency, getStatusBadgeClass, getStatusLabel, classNames } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -25,11 +25,19 @@ export default function AdminServicesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<ServiceStatus | ''>('');
+  const [statusFilter, setStatusFilter] = useState<ServiceStatusType | ''>('');
   const [showModal, setShowModal] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    serviceName: string;
+    category: string;
+    description: string;
+    price: number;
+    duration: number;
+    image: string;
+    status: ServiceStatusType;
+  }>({
     serviceName: '',
     category: '',
     description: '',
@@ -421,7 +429,7 @@ export default function AdminServicesPage() {
               { value: 'inactive', label: 'Inactive' },
             ]}
             value={formData.status}
-            onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as ServiceStatus }))}
+            onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as ServiceStatusType }))}
           />
 
           <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">

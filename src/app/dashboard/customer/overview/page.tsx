@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { api } from '@/lib/api';
-import { Appointment, AppointmentStatus, PaymentStatus } from '@/types';
+import { Appointment, type AppointmentStatus as AppointmentStatusType, type PaymentStatus as PaymentStatusType } from '@/types';
 import { formatCurrency, formatDate, formatTime, getStatusBadgeClass, getStatusLabel, canCancelAppointment, canPayForAppointment, classNames } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -21,6 +21,7 @@ export default function CustomerOverviewPage() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [stats, setStats] = useState({
     totalAppointments: 0,
+    total: 0,
     pending: 0,
     confirmed: 0,
     cancelled: 0,
@@ -38,7 +39,15 @@ export default function CustomerOverviewPage() {
         ]);
 
         if (statsRes.success && statsRes.data) {
-          setStats(statsRes.data);
+          const data = statsRes.data;
+          setStats(prev => ({
+            ...prev,
+            totalAppointments: data.total,
+            total: data.total,
+            pending: data.pending,
+            confirmed: data.confirmed,
+            cancelled: data.cancelled,
+          }));
         }
         if (appointmentsRes.success && appointmentsRes.data) {
           setRecentAppointments(appointmentsRes.data);
@@ -201,8 +210,8 @@ export default function CustomerOverviewPage() {
 
 function AppointmentCard({ appointment }: { appointment: Appointment }) {
   const service = appointment.serviceId as any;
-  const status = appointment.status as AppointmentStatus;
-  const paymentStatus = appointment.paymentStatus as PaymentStatus;
+  const status = appointment.status as AppointmentStatusType;
+  const paymentStatus = appointment.paymentStatus as PaymentStatusType;
 
   return (
     <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">

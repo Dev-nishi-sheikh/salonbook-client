@@ -12,8 +12,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { api } from '@/lib/api';
-import { Transaction, TransactionStatus } from '@/types';
-import { formatCurrency, formatDate, getStatusBadgeClass, getStatusLabel } from '@/lib/utils';
+import { Transaction, type TransactionStatus as TransactionStatusType } from '@/types';
+import { formatCurrency, formatDate, formatTime, getStatusBadgeClass, getStatusLabel } from '@/lib/utils';
 
 export default function AdminTransactionsPage() {
   const router = useRouter();
@@ -199,7 +199,7 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
   const customer = transaction.customerId as any;
   const appointment = transaction.appointmentId as any;
   const service = appointment?.serviceId as any;
-  const status = transaction.status as TransactionStatus;
+  const status = transaction.status as TransactionStatusType;
 
   return (
     <tr className="hover:bg-gray-50">

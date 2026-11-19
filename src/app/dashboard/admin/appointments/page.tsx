@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Modal } from '@/components/ui/Modal';
 import { api } from '@/lib/api';
-import { Appointment, AppointmentStatus, PaymentStatus } from '@/types';
+import { Appointment, type AppointmentStatus as AppointmentStatusType, type PaymentStatus as PaymentStatusType } from '@/types';
 import { formatCurrency, formatDate, formatTime, getStatusBadgeClass, getStatusLabel, classNames } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -24,12 +24,12 @@ export default function AdminAppointmentsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<AppointmentStatus | ''>('');
-  const [paymentStatusFilter, setPaymentStatusFilter] = useState<PaymentStatus | ''>('');
+  const [statusFilter, setStatusFilter] = useState<AppointmentStatusType | ''>('');
+  const [paymentStatusFilter, setPaymentStatusFilter] = useState<PaymentStatusType | ''>('');
   const [showModal, setShowModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [newStatus, setNewStatus] = useState<AppointmentStatus>('pending');
+  const [newStatus, setNewStatus] = useState<AppointmentStatusType>('pending');
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -60,7 +60,7 @@ export default function AdminAppointmentsPage() {
 
   const handleOpenModal = (appointment: Appointment) => {
     setSelectedAppointment(appointment);
-    setNewStatus(appointment.status as AppointmentStatus);
+    setNewStatus(appointment.status as AppointmentStatusType);
     setShowModal(true);
   };
 
@@ -112,14 +112,14 @@ export default function AdminAppointmentsPage() {
     );
   }
 
-  const statusFilters: { value: AppointmentStatus | ''; label: string }[] = [
+  const statusFilters: { value: AppointmentStatusType | ''; label: string }[] = [
     { value: '', label: 'All Status' },
     { value: 'pending', label: 'Pending' },
     { value: 'confirmed', label: 'Confirmed' },
     { value: 'cancelled', label: 'Cancelled' },
   ];
 
-  const paymentFilters: { value: PaymentStatus | ''; label: string }[] = [
+  const paymentFilters: { value: PaymentStatusType | ''; label: string }[] = [
     { value: '', label: 'All Payment' },
     { value: 'unpaid', label: 'Unpaid' },
     { value: 'paid', label: 'Paid' },
@@ -235,7 +235,7 @@ export default function AdminAppointmentsPage() {
                 {formatDate(selectedAppointment.appointmentDate)} at {formatTime(selectedAppointment.timeSlot)}
               </p>
               <p className="text-sm text-gray-500">
-                Current: <Badge variant={getStatusBadgeClass(selectedAppointment.status as AppointmentStatus)}>{getStatusLabel(selectedAppointment.status as AppointmentStatus)}</Badge>
+                Current: <Badge variant={getStatusBadgeClass(selectedAppointment.status as AppointmentStatusType)}>{getStatusLabel(selectedAppointment.status as AppointmentStatusType)}</Badge>
               </p>
             </div>
           )}
@@ -248,7 +248,7 @@ export default function AdminAppointmentsPage() {
               { value: 'cancelled', label: 'Cancelled' },
             ]}
             value={newStatus}
-            onChange={e => setNewStatus(e.target.value as AppointmentStatus)}
+            onChange={e => setNewStatus(e.target.value as AppointmentStatusType)}
           />
 
           <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
@@ -268,8 +268,8 @@ export default function AdminAppointmentsPage() {
 function AdminAppointmentRow({ appointment, onAction }: { appointment: Appointment; onAction: (a: Appointment) => void }) {
   const service = appointment.serviceId as any;
   const customer = appointment.customerId as any;
-  const status = appointment.status as AppointmentStatus;
-  const paymentStatus = appointment.paymentStatus as PaymentStatus;
+  const status = appointment.status as AppointmentStatusType;
+  const paymentStatus = appointment.paymentStatus as PaymentStatusType;
 
   return (
     <tr className="hover:bg-gray-50">
