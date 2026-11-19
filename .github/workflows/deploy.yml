@@ -36,7 +36,10 @@ jobs:
       - name: Prepare standalone output
         run: |
           cp -r .next/static .next/standalone/.next/
-          cp -r public .next/standalone/
+          # Copy public folder if it exists
+          if [ -d "public" ]; then
+            cp -r public .next/standalone/
+          fi
 
       - name: Setup SSH
         env:
