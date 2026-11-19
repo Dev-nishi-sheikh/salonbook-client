@@ -124,17 +124,30 @@ src/
 
 ## Authentication Flow
 
-1. User registers/logs in via `/auth/signup` or `/auth/signin`
-2. JWT token stored in localStorage
-3. Token sent with all API requests via Authorization header
-4. Role-based redirects after login (customer → customer dashboard, admin → admin dashboard)
-5. Protected routes check auth state and role
-6. Token auto-refresh on app load
+The application uses **Better Auth** with **HTTP-only session cookies** for authentication (no localStorage JWT tokens).
+
+1. **Registration/Login**: User registers or logs in via `/auth/signup` or `/auth/signin` using Better Auth client (`signUp.email`, `signIn.email`). Credentials are sent to the backend `/api/auth` endpoints.
+
+2. **Session Cookies**: On successful authentication, Better Auth sets **HTTP-only, secure, same-site cookies** automatically (via `credentials: 'include'`). No JWT tokens are stored in localStorage.
+
+3. **Session Persistence**: Session cookies are sent automatically with all subsequent requests to the backend (including cross-origin) via `credentials: 'include'` on both the Better Auth client and Axios API client.
+
+4. **Session Verification**: On app load, `AuthProvider` calls `getSession()` (Better Auth client) which hits `/api/auth/get-session` to verify the session cookie and retrieve the current user. The user object is stored in React context.
+
+5. **Protected Routes**: Dashboard pages use `useAuth()` hook to check `isAuthenticated` state. Unauthenticated users are redirected to sign-in.
+
+6. **Google OAuth**: `signIn.social({ provider: 'google' })` redirects to Google OAuth flow; on callback, Better Auth sets session cookies and redirects back to the app.
+
+7. **Logout**: `signOut()` clears the session cookie on the server; client state is reset immediately.
+
+8. **Profile Updates**: Profile changes use direct API call with `credentials: 'include'` to send session cookie; local context is updated on success.
+
+No localStorage JWT token handling or manual token refresh is implemented — session lifecycle is managed entirely by Better Auth via secure cookies.
 
 ## API Integration
 
 The `api` client in `lib/api.ts` handles:
-- Automatic token attachment
+- Automatic cookie attachment via `withCredentials: true`
 - 401 handling with redirect to signin
 - All REST endpoints for services, appointments, transactions, users
 - File uploads for service images
@@ -164,6 +177,8 @@ The `api` client in `lib/api.ts` handles:
 - XSS prevention via React's built-in escaping
 - Secure HTTP headers via Next.js
 - No secrets in client bundle
+- HTTP-only session cookies (no localStorage token exposure)
+- CSRF protection via same-site cookies
 
 ## Live Website
 
