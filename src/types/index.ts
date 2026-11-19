@@ -110,7 +110,7 @@ export interface PaginationParams {
 
 export interface AuthState {
   user: User | null;
-  token: string | null;
+  token?: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
 }

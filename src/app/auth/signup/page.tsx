@@ -64,15 +64,17 @@ export default function SignUpPage() {
     setIsLoading(false);
 
     if (success) {
-      toast.success('Account created successfully!');
-      router.push(callbackUrl);
+      const redirectUrl = callbackUrl === '/' 
+        ? '/dashboard/customer/overview' 
+        : callbackUrl;
+      router.push(redirectUrl);
       router.refresh();
     }
   };
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
-    toast.error('Google login requires Google OAuth configuration');
+    await googleLogin();
     setIsLoading(false);
   };
 

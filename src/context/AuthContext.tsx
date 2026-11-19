@@ -1,14 +1,14 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { api } from '@/lib/api';
+import { authClient, signIn, signUp, signOut, getSession } from '@/lib/auth-client';
 import { User, AuthState } from '@/types';
 import toast from 'react-hot-toast';
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>;
   register: (data: { name: string; email: string; password: string; image?: string }) => Promise<boolean>;
-  googleLogin: (idToken: string) => Promise<boolean>;
+  googleLogin: () => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: { name?: string; image?: string; phone?: string }) => Promise<boolean>;
   refreshUser: () => Promise<void>;
@@ -19,145 +19,110 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
     user: null,
-    token: null,
     isLoading: true,
     isAuthenticated: false,
   });
 
   const refreshUser = useCallback(async () => {
     try {
-      const response = await api.getMe();
-      if (response.success && response.data) {
-        setState(prev => ({
-          ...prev,
-          user: response.data!,
-          isAuthenticated: true,
+      const { data: session } = await getSession();
+      if (session?.user) {
+        const user: User = {
+          _id: session.user.id,
+          name: session.user.name,
+          email: session.user.email,
+          image: session.user.image || undefined,
+          role: (session.user as any).role || 'customer',
+          isBlocked: (session.user as any).isBlocked || false,
+          emailVerified: session.user.emailVerified || false,
+          createdAt: session.user.createdAt?.toString() || new Date().toISOString(),
+          updatedAt: session.user.updatedAt?.toString() || new Date().toISOString(),
+        };
+        setState({
+          user,
           isLoading: false,
-        }));
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('user', JSON.stringify(response.data));
-        }
+          isAuthenticated: true,
+        });
       } else {
-        throw new Error('Failed to fetch user');
+        setState({ user: null, isLoading: false, isAuthenticated: false });
       }
     } catch {
-      setState(prev => ({ ...prev, user: null, token: null, isAuthenticated: false, isLoading: false }));
-      api.clearToken();
+      setState({ user: null, isLoading: false, isAuthenticated: false });
     }
   }, []);
 
   useEffect(() => {
-    const initAuth = async () => {
-      const token = api.getToken();
-      const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-      
-      if (token && storedUser) {
-        try {
-          const parsedUser = JSON.parse(storedUser);
-          setState({
-            user: parsedUser,
-            token,
-            isLoading: false,
-            isAuthenticated: true,
-          });
-          await refreshUser();
-        } catch {
-          api.clearToken();
-          setState({ user: null, token: null, isLoading: false, isAuthenticated: false });
-        }
-      } else {
-        setState(prev => ({ ...prev, isLoading: false }));
-      }
-    };
-
-    initAuth();
+    refreshUser();
   }, [refreshUser]);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await api.login({ email, password });
-      if (response.success && response.data) {
-        setState({
-          user: response.data.user,
-          token: response.data.token,
-          isLoading: false,
-          isAuthenticated: true,
-        });
-        toast.success('Welcome back!');
-        return true;
+      const { error } = await signIn.email({ email, password });
+      if (error) {
+        toast.error(error.message || 'Login failed');
+        return false;
       }
-      toast.error(response.message || 'Login failed');
-      return false;
+      await refreshUser();
+      toast.success('Welcome back!');
+      return true;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      toast.error(error.message || 'Login failed');
       return false;
     }
   };
 
   const register = async (data: { name: string; email: string; password: string; image?: string }): Promise<boolean> => {
     try {
-      const response = await api.register(data);
-      if (response.success && response.data) {
-        setState({
-          user: response.data.user,
-          token: response.data.token,
-          isLoading: false,
-          isAuthenticated: true,
-        });
-        toast.success('Account created successfully!');
-        return true;
+      const { error } = await signUp.email({ name: data.name, email: data.email, password: data.password, image: data.image });
+      if (error) {
+        toast.error(error.message || 'Registration failed');
+        return false;
       }
-      toast.error(response.message || 'Registration failed');
-      return false;
+      await refreshUser();
+      toast.success('Account created successfully!');
+      return true;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Registration failed');
+      toast.error(error.message || 'Registration failed');
       return false;
     }
   };
 
-  const googleLogin = async (idToken: string): Promise<boolean> => {
+  const googleLogin = async (): Promise<void> => {
     try {
-      const response = await api.googleAuth(idToken);
-      if (response.success && response.data) {
-        setState({
-          user: response.data.user,
-          token: response.data.token,
-          isLoading: false,
-          isAuthenticated: true,
-        });
-        toast.success('Welcome!');
-        return true;
-      }
-      toast.error(response.message || 'Google login failed');
-      return false;
+      await signIn.social({ provider: 'google', callbackURL: '/dashboard/customer/overview' });
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Google login failed');
-      return false;
+      toast.error(error.message || 'Google login failed');
     }
   };
 
   const logout = async () => {
     try {
-      await api.logout();
+      await signOut();
     } catch {
       // Ignore logout errors
     }
-    setState({ user: null, token: null, isLoading: false, isAuthenticated: false });
+    setState({ user: null, isLoading: false, isAuthenticated: false });
     toast.success('Logged out successfully');
   };
 
   const updateProfile = async (data: { name?: string; image?: string; phone?: string }): Promise<boolean> => {
     try {
-      const response = await api.updateProfile(data);
-      if (response.success && response.data) {
-        setState(prev => ({ ...prev, user: response.data! }));
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/profile`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (result.success && result.data) {
+        setState(prev => ({ ...prev, user: result.data }));
         toast.success('Profile updated successfully');
         return true;
       }
-      toast.error(response.message || 'Failed to update profile');
+      toast.error(result.message || 'Failed to update profile');
       return false;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to update profile');
+      toast.error(error.message || 'Failed to update profile');
       return false;
     }
   };

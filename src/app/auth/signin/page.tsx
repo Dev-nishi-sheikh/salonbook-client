@@ -41,17 +41,17 @@ export default function SignInPage() {
     setIsLoading(false);
 
     if (success) {
-      toast.success('Welcome back!');
-      router.push(callbackUrl);
+      const redirectUrl = callbackUrl === '/' 
+        ? '/dashboard/customer/overview' 
+        : callbackUrl;
+      router.push(redirectUrl);
       router.refresh();
     }
   };
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
-    // In a real app, you would use Google Identity Services
-    // For now, we'll simulate with a placeholder
-    toast.error('Google login requires Google OAuth configuration');
+    await googleLogin();
     setIsLoading(false);
   };
 
