@@ -1,12 +1,38 @@
 export type UserRole = 'customer' | 'admin';
 
+export const UserRole = {
+  CUSTOMER: 'customer',
+  ADMIN: 'admin',
+} as const;
+
 export type ServiceStatus = 'active' | 'inactive';
+
+export const ServiceStatus = {
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
+} as const;
 
 export type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled';
 
+export const AppointmentStatus = {
+  PENDING: 'pending',
+  CONFIRMED: 'confirmed',
+  CANCELLED: 'cancelled',
+} as const;
+
 export type PaymentStatus = 'unpaid' | 'paid';
 
+export const PaymentStatus = {
+  UNPAID: 'unpaid',
+  PAID: 'paid',
+} as const;
+
 export type TransactionStatus = 'paid' | 'failed';
+
+export const TransactionStatus = {
+  PAID: 'paid',
+  FAILED: 'failed',
+} as const;
 
 export interface User {
   _id: string;
@@ -78,7 +104,7 @@ export interface PaginationParams {
   category?: string;
   sortBy?: 'price' | 'createdAt' | 'serviceName';
   sortOrder?: 'asc' | 'desc';
-  status?: AppointmentStatus;
+  status?: AppointmentStatus | ServiceStatus;
   paymentStatus?: PaymentStatus;
 }
 

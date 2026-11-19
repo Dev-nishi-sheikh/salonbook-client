@@ -1,5 +1,5 @@
 import { format, formatDistanceToNow, parseISO } from 'date-fns';
-import { AppointmentStatus, PaymentStatus, ServiceStatus, Appointment } from '@/types';
+import type { AppointmentStatus, PaymentStatus, ServiceStatus, TransactionStatus, Appointment } from '@/types';
 
 export function formatCurrency(amount: number, currency = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
@@ -45,26 +45,26 @@ export function getRelativeTime(dateString: string): string {
   }
 }
 
-export function getStatusBadgeClass(status: AppointmentStatus | PaymentStatus | ServiceStatus): string {
+export function getStatusBadgeClass(status: AppointmentStatus | PaymentStatus | ServiceStatus | TransactionStatus): 'default' | 'pending' | 'confirmed' | 'cancelled' | 'unpaid' | 'paid' | 'active' | 'inactive' {
   switch (status) {
     case 'pending':
-      return 'badge-pending';
+      return 'pending';
     case 'confirmed':
     case 'paid':
     case 'active':
-      return 'badge-confirmed';
+      return 'confirmed';
     case 'cancelled':
     case 'failed':
     case 'inactive':
-      return 'badge-cancelled';
+      return 'cancelled';
     case 'unpaid':
-      return 'badge-unpaid';
+      return 'unpaid';
     default:
-      return 'badge';
+      return 'default';
   }
 }
 
-export function getStatusLabel(status: AppointmentStatus | PaymentStatus | ServiceStatus): string {
+export function getStatusLabel(status: AppointmentStatus | PaymentStatus | ServiceStatus | TransactionStatus): string {
   const labels: Record<string, string> = {
     pending: 'Pending',
     confirmed: 'Confirmed',
