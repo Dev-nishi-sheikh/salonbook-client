@@ -165,7 +165,15 @@ The `api` client in `lib/api.ts` handles:
 - Secure HTTP headers via Next.js
 - No secrets in client bundle
 
+## Live Website
+
+https://assignmentnine.oxytumzone.com
+
+## Repository Links
+
+- **Client Repository**: https://github.com/Dev-nishi-sheikh/salonbook-client
+- **Server Repository**: https://github.com/Dev-nishi-sheikh/salonbook-server
+
 ## License
 
-ISC# CI/CD test Thu Nov 19 21:10:11 +06 2026
-# SSH key fix Thu Nov 19 21:38:50 +06 2026
+ISC
