@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, CreditCard, Loader2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -18,7 +16,7 @@ import toast from 'react-hot-toast';
 
 export default function CustomerAppointmentsPage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user } = useAuth();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
@@ -88,33 +86,6 @@ export default function CustomerAppointmentsPage() {
     }
   };
 
-  if (authLoading || isLoading) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center py-12">
-          <div className="text-center">
-            <p className="text-gray-600">Please sign in to view your appointments</p>
-            <Button onClick={() => router.push('/auth/signin')} className="mt-4">Sign In</Button>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
   const statusFilters: { value: AppointmentStatusType | ''; label: string }[] = [
     { value: '', label: 'All' },
     { value: 'pending', label: 'Pending' },
@@ -123,107 +94,99 @@ export default function CustomerAppointmentsPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      
-      <main className="flex-1 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">My Appointments</h1>
-              <p className="text-gray-600 mt-1">View and manage your salon appointments</p>
-            </div>
-            <Link href="/browse">
-              <Button>
-                Book New Appointment
-              </Button>
-            </Link>
-          </div>
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">My Appointments</h1>
+          <p className="text-gray-600 mt-1">View and manage your salon appointments</p>
+        </div>
+        <Link href="/browse">
+          <Button>
+            Book New Appointment
+          </Button>
+        </Link>
+      </div>
 
-          <div className="flex flex-wrap gap-2 mb-6">
-            {statusFilters.map(filter => (
-              <Button
-                key={filter.value}
-                variant={statusFilter === filter.value ? 'primary' : 'outline'}
-                size="sm"
-                onClick={() => {
-                  setStatusFilter(filter.value);
-                  setPagination(prev => ({ ...prev, page: 1 }));
+      <div className="flex flex-wrap gap-2">
+        {statusFilters.map(filter => (
+          <Button
+            key={filter.value}
+            variant={statusFilter === filter.value ? 'primary' : 'outline'}
+            size="sm"
+            onClick={() => {
+              setStatusFilter(filter.value);
+              setPagination(prev => ({ ...prev, page: 1 }));
+            }}
+          >
+            {filter.label}
+          </Button>
+        ))}
+      </div>
+
+      {isLoading ? (
+        <div className="space-y-4">
+          {[1, 2, 3].map(i => (
+            <AppointmentCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : appointments.length > 0 ? (
+        <>
+          <div className="space-y-4">
+            {appointments.map(appointment => (
+              <AppointmentCard
+                key={appointment._id}
+                appointment={appointment}
+                onCancel={() => {
+                  setSelectedAppointment(appointment);
+                  setShowCancelModal(true);
                 }}
-              >
-                {filter.label}
-              </Button>
+                onPay={() => handlePayNow(appointment)}
+              />
             ))}
           </div>
 
-          {isLoading ? (
-            <div className="space-y-4">
-              {[1, 2, 3].map(i => (
-                <AppointmentCardSkeleton key={i} />
-              ))}
+          {pagination.pages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-8">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
+                disabled={pagination.page === 1}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <span className="px-4 text-sm text-gray-600">
+                Page {pagination.page} of {pagination.pages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
+                disabled={pagination.page === pagination.pages}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
             </div>
-          ) : appointments.length > 0 ? (
-            <>
-              <div className="space-y-4">
-                {appointments.map(appointment => (
-                  <AppointmentCard
-                    key={appointment._id}
-                    appointment={appointment}
-                    onCancel={() => {
-                      setSelectedAppointment(appointment);
-                      setShowCancelModal(true);
-                    }}
-                    onPay={() => handlePayNow(appointment)}
-                  />
-                ))}
-              </div>
-
-              {pagination.pages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-                    disabled={pagination.page === 1}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <span className="px-4 text-sm text-gray-600">
-                    Page {pagination.page} of {pagination.pages}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-                    disabled={pagination.page === pagination.pages}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-            </>
-          ) : (
-            <Card className="text-center py-12">
-              <CardContent>
-                <Calendar className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  {statusFilter ? `No ${statusFilter} appointments` : 'No appointments yet'}
-                </h3>
-                <p className="text-gray-500 mb-6">
-                  {statusFilter 
-                    ? 'Try changing the filter or book a new appointment'
-                    : 'Book your first salon service today'}
-                </p>
-                <Link href="/browse">
-                  <Button>Browse Services</Button>
-                </Link>
-              </CardContent>
-            </Card>
           )}
-        </div>
-      </main>
-
-      <Footer />
+        </>
+      ) : (
+        <Card className="text-center py-12">
+          <CardContent>
+            <Calendar className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {statusFilter ? `No ${statusFilter} appointments` : 'No appointments yet'}
+            </h3>
+            <p className="text-gray-500 mb-6">
+              {statusFilter 
+                ? 'Try changing the filter or book a new appointment'
+                : 'Book your first salon service today'}
+            </p>
+            <Link href="/browse">
+              <Button>Browse Services</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
 
       <Modal
         isOpen={showCancelModal}

@@ -1,17 +1,15 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, Loader2, ArrowRight } from 'lucide-react';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { api } from '@/lib/api';
 import toast from 'react-hot-toast';
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -56,11 +54,9 @@ export default function PaymentSuccessPage() {
   if (isLoading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar />
         <main className="flex-1 flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
         </main>
-        <Footer />
       </div>
     );
   }
@@ -68,7 +64,6 @@ export default function PaymentSuccessPage() {
   if (error) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar />
         <main className="flex-1 flex items-center justify-center py-12 px-4">
           <Card className="max-w-md w-full text-center">
             <CardContent className="p-8">
@@ -88,15 +83,12 @@ export default function PaymentSuccessPage() {
             </CardContent>
           </Card>
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-      
       <main className="flex-1 flex items-center justify-center py-12 px-4">
         <Card className="max-w-md w-full text-center">
           <CardContent className="p-8">
@@ -140,8 +132,14 @@ export default function PaymentSuccessPage() {
           </CardContent>
         </Card>
       </main>
-
-      <Footer />
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-salon-600" /></main></div>}>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }

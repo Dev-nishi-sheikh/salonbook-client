@@ -1,18 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, User, Image } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
 import toast from 'react-hot-toast';
 
-export default function SignUpPage() {
+function SignUpContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { register, googleLogin } = useAuth();
@@ -80,8 +78,6 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-      
       <main className="flex-1 flex items-center justify-center py-8 px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
@@ -230,8 +226,14 @@ export default function SignUpPage() {
           </p>
         </div>
       </main>
-
-      <Footer />
     </div>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-8 px-4"><div className="h-8 w-8 animate-spin rounded-full border-4 border-salon-600 border-t-transparent" /></main></div>}>
+      <SignUpContent />
+    </Suspense>
   );
 }
