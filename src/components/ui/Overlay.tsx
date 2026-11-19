@@ -12,8 +12,8 @@ interface TooltipProps {
 }
 
 export function Tooltip({ content, children, position = 'top', delay = 200, className }: TooltipProps) {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const [isVisible, setIsVisible] = React.useState<boolean>(false);
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const showTooltip = () => {
     timeoutRef.current = setTimeout(() => setIsVisible(true), delay);
@@ -40,7 +40,7 @@ export function Tooltip({ content, children, position = 'top', delay = 200, clas
 
   return (
     <div className="relative inline-block" onMouseEnter={showTooltip} onMouseLeave={hideTooltip} onFocus={showTooltip} onBlur={hideTooltip}>
-      {React.cloneElement(children, { onMouseEnter: showTooltip, onMouseLeave: hideTooltip, onFocus: showTooltip, onBlur: hideTooltip })}
+      {children}
       {isVisible && (
         <div
           className={classNames(
@@ -88,12 +88,12 @@ export function Popover({ trigger, content, position = 'bottom', className }: Po
 
   return (
     <div className="relative inline-block" ref={popoverRef}>
-      {React.cloneElement(trigger, {
+      {React.cloneElement(trigger as React.ReactElement<any>, {
         onClick: (e: React.MouseEvent) => {
           e.stopPropagation();
           setIsOpen(!isOpen);
         },
-      })}
+      } as any)}
       {isOpen && (
         <div
           className={classNames(

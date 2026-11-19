@@ -144,7 +144,7 @@ export function Tab({ tabs, activeTab, onChange, className, variant = 'line' }: 
     enclosed: 'bg-gray-100 rounded-lg p-1',
   };
 
-  const tabClasses = (isActive: boolean, disabled: boolean) => {
+  const tabClasses = (isActive: boolean, disabled?: boolean) => {
     const base = 'flex items-center gap-2 px-4 py-2 font-medium text-sm transition-all';
     if (disabled) return `${base} text-gray-400 cursor-not-allowed`;
 
@@ -168,7 +168,7 @@ export function Tab({ tabs, activeTab, onChange, className, variant = 'line' }: 
           aria-controls={`${tab.id}-panel`}
           id={`${tab.id}-trigger`}
           onClick={() => !tab.disabled && onChange(tab.id)}
-          disabled={tab.disabled}
+          disabled={!!tab.disabled}
           className={tabClasses(activeTab === tab.id, tab.disabled)}
         >
           {tab.icon && <span className="w-4 h-4">{tab.icon}</span>}

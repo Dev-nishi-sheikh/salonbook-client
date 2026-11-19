@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Facebook, Instagram, Twitter, MapPin, Clock, Phone, Mail } from 'lucide-react';
+import { Share2, Globe, MessageSquare, MapPin, Clock, Phone, Mail } from 'lucide-react';
 
 export function Footer() {
   const navigationLinks = {
@@ -34,9 +34,9 @@ export function Footer() {
   };
 
   const socialLinks = [
-    { name: 'Facebook', href: '#', icon: Facebook },
-    { name: 'Instagram', href: '#', icon: Instagram },
-    { name: 'Twitter', href: '#', icon: Twitter },
+    { name: 'Share', href: '#', icon: Share2 },
+    { name: 'Website', href: '#', icon: Globe },
+    { name: 'Contact', href: '#', icon: MessageSquare },
   ];
 
   return (

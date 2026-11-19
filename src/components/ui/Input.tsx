@@ -36,8 +36,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               error
                 ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
                 : 'border-gray-300 focus:ring-salon-500 focus:border-transparent',
-              leftIcon && 'pl-10',
-              rightIcon && 'pr-10',
+              leftIcon ? 'pl-10' : undefined,
+              rightIcon ? 'pr-10' : undefined,
               className
             )}
             aria-invalid={error ? 'true' : 'false'}
