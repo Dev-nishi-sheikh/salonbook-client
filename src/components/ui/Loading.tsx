@@ -17,9 +17,9 @@ export function LoadingSpinner({ size = 'md', className, color = 'primary' }: Lo
   };
 
   const colorClasses = {
-    primary: 'text-salon-600',
+    primary: 'text-charcoal-700',
     white: 'text-white',
-    gray: 'text-gray-400',
+    gray: 'text-warm-gray-400',
   };
 
   return (
@@ -48,9 +48,9 @@ export function LoadingOverlay({ isLoading, children, message }: LoadingOverlayP
       {children}
       {isLoading && (
         <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
-          <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center gap-3">
+          <div className="bg-white p-5 rounded-sm border border-warm-gray-200 flex flex-col items-center gap-3">
             <LoadingSpinner size="lg" />
-            {message && <p className="text-gray-600">{message}</p>}
+            {message && <p className="text-warm-gray-600">{message}</p>}
           </div>
         </div>
       )}
@@ -60,7 +60,7 @@ export function LoadingOverlay({ isLoading, children, message }: LoadingOverlayP
 
 export function Skeleton({ className }: { className?: string }) {
   return (
-    <div className={classNames('animate-pulse bg-gray-200 rounded', className)} />
+    <div className={classNames('animate-pulse bg-warm-gray-200 rounded-sm', className)} />
   );
 }
 
@@ -69,11 +69,11 @@ export function CardSkeleton() {
     <div className="card overflow-hidden animate-pulse flex flex-col h-full">
       <div className="aspect-[4/3] bg-gray-200" />
       <div className="p-4 flex flex-col flex-1 space-y-3">
-        <div className="h-5 bg-gray-200 rounded w-3/4" />
-        <div className="h-4 bg-gray-200 rounded w-1/2" />
-        <div className="h-4 bg-gray-200 rounded w-full flex-1" />
-        <div className="h-4 bg-gray-200 rounded w-4/6" />
-        <div className="h-4 bg-gray-200 rounded w-4/6" />
+        <div className="h-5 bg-warm-gray-200 rounded-sm w-3/4" />
+        <div className="h-4 bg-warm-gray-200 rounded-sm w-1/2" />
+        <div className="h-4 bg-warm-gray-200 rounded-sm w-full flex-1" />
+        <div className="h-4 bg-warm-gray-200 rounded-sm w-4/6" />
+        <div className="h-4 bg-warm-gray-200 rounded-sm w-4/6" />
       </div>
     </div>
   );
@@ -84,7 +84,7 @@ export function TableRowSkeleton(columns: number) {
     <tr className="animate-pulse">
       {Array.from({ length: columns }, (_, i) => (
         <td key={i} className="py-4">
-          <div className="h-4 bg-gray-200 rounded w-3/4" />
+          <div className="h-4 bg-warm-gray-200 rounded-sm w-3/4" />
         </td>
       ))}
     </tr>

@@ -41,7 +41,7 @@ export function Dropdown({ trigger, items, align = 'right', className }: Dropdow
       {isOpen && (
         <div
           className={classNames(
-            'absolute z-50 mt-2 min-w-[180px] bg-white rounded-lg shadow-lg border border-gray-100 py-1 animate-in fade-in-0 zoom-in-95',
+            'absolute z-50 mt-2 min-w-[180px] bg-white rounded-sm shadow-medium border border-warm-gray-200 py-1',
             align === 'right' ? 'right-0' : 'left-0'
           )}
         >

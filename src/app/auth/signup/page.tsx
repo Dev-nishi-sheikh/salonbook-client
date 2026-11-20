@@ -72,8 +72,13 @@ function SignUpContent() {
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
-    await googleLogin();
-    setIsLoading(false);
+    try {
+      const started = await googleLogin();
+      // On success the browser navigates away; only reset state on failure.
+      if (!started) setIsLoading(false);
+    } catch {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -81,8 +86,7 @@ function SignUpContent() {
       <main className="flex-1 flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2 text-3xl font-bold text-rose-600 mb-6 font-display">
-              <span className="text-4xl">💇</span>
+            <Link href="/" className="inline-flex items-center text-2xl font-bold text-charcoal-900 mb-6 font-display">
               SalonBook
             </Link>
             <h1 className="text-2xl sm:text-3xl font-bold text-charcoal-900 font-display">Create your account</h1>

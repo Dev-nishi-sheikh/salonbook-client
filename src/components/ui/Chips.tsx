@@ -132,7 +132,7 @@ export function TagInput({
         />
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full max-h-40 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg">
+        <div className="absolute z-50 mt-1 w-full max-h-40 overflow-y-auto bg-white border border-warm-gray-200 rounded-sm shadow-medium">
           {filteredSuggestions.map(suggestion => (
             <button
               key={suggestion}
@@ -234,7 +234,7 @@ export function SelectTags({
         )}
       </div>
       {isOpen && (
-        <div className="absolute z-50 mt-1 w-full max-h-60 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg">
+        <div className="absolute z-50 mt-1 w-full max-h-60 overflow-y-auto bg-white border border-warm-gray-200 rounded-sm shadow-medium">
           {filteredOptions.length === 0 ? (
             <div className="px-3 py-2 text-sm text-gray-500">No options available</div>
           ) : (

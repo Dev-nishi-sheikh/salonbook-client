@@ -44,8 +44,7 @@ export function Footer() {
       <div className="container-main py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-white mb-4">
-              <span className="text-3xl">💇</span>
+            <Link href="/" className="flex items-center gap-2 text-xl font-bold text-white mb-4">
               <span className="font-display">SalonBook</span>
             </Link>
             <p className="text-warm-gray-400 max-w-sm mb-6 leading-relaxed">

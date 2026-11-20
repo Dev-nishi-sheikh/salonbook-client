@@ -44,7 +44,7 @@ export function Tooltip({ content, children, position = 'top', delay = 200, clas
       {isVisible && (
         <div
           className={classNames(
-            'absolute z-50 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 rounded shadow-lg whitespace-nowrap animate-in fade-in-150 duration-150',
+            'absolute z-50 px-3 py-1.5 text-xs font-medium text-white bg-charcoal-900 rounded-sm whitespace-nowrap',
             positionStyles[position],
             className
           )}
@@ -97,7 +97,7 @@ export function Popover({ trigger, content, position = 'bottom', className }: Po
       {isOpen && (
         <div
           className={classNames(
-            'absolute z-50 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-3 animate-in fade-in-0 zoom-in-95',
+            'absolute z-50 w-64 bg-white rounded-sm shadow-medium border border-warm-gray-200 p-3',
             positionStyles[position],
             className
           )}
@@ -159,7 +159,7 @@ export function Accordion({ items, allowMultiple = false, className }: Accordion
             <div
               id={`accordion-content-${index}`}
               role="region"
-              className="px-4 pb-4 text-gray-600 animate-in slide-in-from-top-2 duration-200"
+              className="px-4 pb-4 text-warm-gray-600"
             >
               {item.content}
             </div>

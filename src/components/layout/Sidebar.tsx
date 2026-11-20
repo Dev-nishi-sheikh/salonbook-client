@@ -73,8 +73,7 @@ export function Sidebar({ isOpen, onClose, role }: SidebarProps) {
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between h-16 px-4 border-b border-warm-gray-200">
-            <Link href="/" className="flex items-center gap-2 text-xl font-bold text-rose-600">
-              <span className="text-2xl">💇</span>
+            <Link href="/" className="flex items-center text-lg font-bold text-charcoal-900">
               <span className="hidden lg:inline font-display">SalonBook</span>
             </Link>
             <button

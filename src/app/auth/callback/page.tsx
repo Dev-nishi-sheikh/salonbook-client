@@ -1,53 +1,89 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { AlertCircle, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { Loader2 } from 'lucide-react';
+import { getSession } from '@/lib/auth-client';
+import { Button } from '@/components/ui/Button';
+import { Card, CardContent } from '@/components/ui/Card';
 
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { refreshUser, isLoading, isAuthenticated, user } = useAuth();
+  const { refreshUser } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [isWorking, setIsWorking] = useState(true);
+  const hasRun = useRef(false);
 
   useEffect(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
+
     const handleCallback = async () => {
-      // Wait for session to be established
-      await refreshUser();
-      
-      // Check for error from OAuth provider
-      const error = searchParams.get('error');
-      const errorDescription = searchParams.get('error_description');
-      
-      if (error) {
-        console.error('OAuth error:', error, errorDescription);
-        router.push('/auth/signin?error=' + encodeURIComponent(errorDescription || error));
+      const providerError = searchParams.get('error');
+      const providerErrorDescription = searchParams.get('error_description');
+
+      if (providerError) {
+        setError(providerErrorDescription || providerError);
+        setIsWorking(false);
         return;
       }
 
-      // If authenticated, redirect based on role
-      if (isAuthenticated && user) {
-        if (user.role === 'admin') {
-          router.push('/dashboard/admin/overview');
-        } else {
-          router.push('/dashboard/customer/overview');
-        }
-      } else {
-        // If not authenticated after callback, go to signin
-        router.push('/auth/signin');
+      try {
+        await refreshUser();
+      } catch {
+        // refreshUser already swallows network errors; fall through to the check below.
       }
+
+      const { data } = await getSession();
+      if (data?.user) {
+        const role = (data.user as { role?: string }).role;
+        router.replace(role === 'admin' ? '/dashboard/admin/overview' : '/dashboard/customer/overview');
+        return;
+      }
+
+      setError('We could not complete your sign-in. Please try again.');
+      setIsWorking(false);
     };
 
     handleCallback();
-  }, [refreshUser, router, searchParams, isAuthenticated, user]);
+  }, [refreshUser, router, searchParams]);
+
+  if (isWorking) {
+    return (
+      <div className="flex flex-col min-h-screen bg-white">
+        <main className="flex-1 flex items-center justify-center py-12 px-4">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin text-charcoal-700 mx-auto mb-3" />
+            <p className="text-warm-gray-600">Completing sign in...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-1 flex items-center justify-center py-12 px-4">
-        <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-rose-600 mx-auto mb-4" />
-          <p className="text-warm-gray-600">Completing sign in...</p>
-        </div>
+        <Card className="max-w-md w-full">
+          <CardContent className="p-6 text-center">
+            <div className="w-12 h-12 bg-red-50 border border-red-200 rounded-sm flex items-center justify-center mx-auto mb-4">
+              <AlertCircle className="h-6 w-6 text-red-600" />
+            </div>
+            <h1 className="text-heading-md font-semibold text-charcoal-900 mb-1">Sign in failed</h1>
+            <p className="text-warm-gray-600 mb-5">{error}</p>
+            <div className="flex flex-col sm:flex-row gap-2 justify-center">
+              <Link href="/auth/signin" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto">Back to Sign In</Button>
+              </Link>
+              <Link href="/" className="w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto">Go Home</Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );
@@ -55,7 +91,7 @@ function AuthCallbackContent() {
 
 export default function AuthCallbackPage() {
   return (
-    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12 px-4"><div className="text-center"><Loader2 className="h-12 w-12 animate-spin text-rose-600 mx-auto mb-4" /><p className="text-warm-gray-600">Loading...</p></div></main></div>}>
+    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-charcoal-700" /></main></div>}>
       <AuthCallbackContent />
     </Suspense>
   );

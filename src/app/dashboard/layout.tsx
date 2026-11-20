@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             >
               <Menu className="h-6 w-6" />
             </button>
-            <span className="text-xl font-bold text-rose-600 font-display">SalonBook</span>
+            <span className="text-lg font-bold text-charcoal-900">SalonBook</span>
             <div className="w-10" />
           </div>
         </header>

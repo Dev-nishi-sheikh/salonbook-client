@@ -34,7 +34,7 @@ export function Navbar() {
         <div className="container-main">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-8">
-              <span className="text-2xl font-bold text-rose-600">SalonBook</span>
+              <span className="text-xl font-bold text-charcoal-900">SalonBook</span>
               <div className="hidden md:flex items-center gap-6">
                 {navigation.map(item => (
                   <div key={item.name} className="h-6 w-24 bg-warm-gray-200 animate-pulse rounded-xl" />
@@ -49,12 +49,11 @@ export function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-warm-gray-100 shadow-soft">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-warm-gray-100 shadow-soft">
       <div className="container-main">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-2xl font-bold text-rose-600 flex items-center gap-2">
-              <span className="text-3xl">💇</span>
+            <Link href="/" className="text-xl font-bold text-charcoal-900 flex items-center">
               <span className="font-display">SalonBook</span>
             </Link>
             
@@ -94,7 +93,7 @@ export function Navbar() {
                 </button>
 
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-medium border border-warm-gray-100 py-1 z-50 animate-in fade-in-0 zoom-in-95">
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-sm shadow-medium border border-warm-gray-200 py-1 z-50">
                     <div className="px-4 py-3 border-b border-warm-gray-100">
                       <p className="text-sm font-medium text-charcoal-900">{user?.name}</p>
                       <p className="text-xs text-warm-gray-500 truncate">{user?.email}</p>

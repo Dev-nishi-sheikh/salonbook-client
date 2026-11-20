@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>;
   register: (data: { name: string; email: string; password: string; image?: string }) => Promise<boolean>;
-  googleLogin: () => Promise<void>;
+  googleLogin: () => Promise<boolean>;
   logout: () => Promise<void>;
   updateProfile: (data: { name?: string; image?: string; phone?: string }) => Promise<boolean>;
   refreshUser: () => Promise<void>;
@@ -87,11 +87,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const googleLogin = async (): Promise<void> => {
+  const googleLogin = async (): Promise<boolean> => {
     try {
-      await signIn.social({ provider: 'google', callbackURL: '/auth/callback' });
+      // Ask Better Auth for the authorize URL instead of relying on the automatic
+      // redirect, so failures can be surfaced to the user instead of silently ignored.
+      const { data, error } = await signIn.social({
+        provider: 'google',
+        callbackURL: '/auth/callback',
+        disableRedirect: true,
+      });
+
+      if (error) {
+        const message = error.message || 'Google sign-in failed';
+        // eslint-disable-next-line no-console
+        console.error('Google sign-in error:', error);
+        toast.error(message);
+        return false;
+      }
+
+      if (!data?.url) {
+        // eslint-disable-next-line no-console
+        console.error('Google sign-in did not return an authorization URL', data);
+        toast.error('Google sign-in is not available right now. Please use email and password.');
+        return false;
+      }
+
+      window.location.href = data.url;
+      return true;
     } catch (error: any) {
-      toast.error(error.message || 'Google login failed');
+      // eslint-disable-next-line no-console
+      console.error('Google sign-in failed:', error);
+      toast.error(error?.message || 'Google sign-in failed. Please try again.');
+      return false;
     }
   };
 
