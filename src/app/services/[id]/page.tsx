@@ -113,7 +113,7 @@ export default function ServiceDetailsPage() {
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
         </main>
         <Footer />
       </div>
@@ -126,9 +126,9 @@ export default function ServiceDetailsPage() {
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-12 px-4">
           <div className="text-center max-w-md">
-            <AlertCircle className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Service Not Found</h1>
-            <p className="text-gray-600 mb-6">{error || 'The service you are looking for does not exist.'}</p>
+            <AlertCircle className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-charcoal-900 mb-2">Service Not Found</h1>
+            <p className="text-warm-gray-600 mb-6">{error || 'The service you are looking for does not exist.'}</p>
             <Link href="/browse">
               <Button>Browse Services</Button>
             </Link>
@@ -142,14 +142,14 @@ export default function ServiceDetailsPage() {
   const canBook = service.status === 'active' && isAuthenticated && user?.role !== 'admin';
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-main">
           <Link
             href="/browse"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-salon-600 mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-warm-gray-600 hover:text-rose-600 mb-6 transition-colors duration-200"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Services
@@ -160,7 +160,7 @@ export default function ServiceDetailsPage() {
               <img
                 src={service.image}
                 alt={service.serviceName}
-                className="w-full aspect-[4/3] object-cover rounded-xl"
+                className="w-full aspect-[4/3] object-cover rounded-2xl"
               />
             </div>
 
@@ -169,38 +169,38 @@ export default function ServiceDetailsPage() {
                 <Badge variant={service.status === 'active' ? 'active' : 'inactive'}>
                   {service.status}
                 </Badge>
-                <span className="text-sm text-gray-500">{service.category}</span>
+                <span className="text-body-sm text-warm-gray-500">{service.category}</span>
               </div>
 
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{service.serviceName}</h1>
-              <p className="text-gray-600 mb-6 text-lg">{service.description}</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-charcoal-900 mb-2 font-display">{service.serviceName}</h1>
+              <p className="text-warm-gray-600 mb-6 text-lg leading-relaxed">{service.description}</p>
 
               <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                  <div className="w-10 h-10 bg-salon-100 rounded-lg flex items-center justify-center">
-                    <MapPin className="h-5 w-5 text-salon-600" />
+                <div className="flex items-center gap-3 p-4 bg-warm-gray-50 rounded-2xl">
+                  <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                    <MapPin className="h-5 w-5 text-rose-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Price</p>
-                    <p className="text-xl font-bold text-gray-900">{formatCurrency(service.price)}</p>
+                    <p className="text-body-sm text-warm-gray-500">Price</p>
+                    <p className="text-heading-lg font-bold text-charcoal-900">{formatCurrency(service.price)}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                  <div className="w-10 h-10 bg-salon-100 rounded-lg flex items-center justify-center">
-                    <Clock className="h-5 w-5 text-salon-600" />
+                <div className="flex items-center gap-3 p-4 bg-warm-gray-50 rounded-2xl">
+                  <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                    <Clock className="h-5 w-5 text-rose-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Duration</p>
-                    <p className="text-xl font-bold text-gray-900">{service.duration} min</p>
+                    <p className="text-body-sm text-warm-gray-500">Duration</p>
+                    <p className="text-heading-lg font-bold text-charcoal-900">{service.duration} min</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                  <div className="w-10 h-10 bg-salon-100 rounded-lg flex items-center justify-center">
-                    <User className="h-5 w-5 text-salon-600" />
+                <div className="flex items-center gap-3 p-4 bg-warm-gray-50 rounded-2xl">
+                  <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                    <User className="h-5 w-5 text-rose-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Category</p>
-                    <p className="text-lg font-medium text-gray-900">{service.category}</p>
+                    <p className="text-body-sm text-warm-gray-500">Category</p>
+                    <p className="text-heading-md font-medium text-charcoal-900">{service.category}</p>
                   </div>
                 </div>
               </div>
@@ -208,7 +208,7 @@ export default function ServiceDetailsPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 {isAuthenticated && user?.role === 'admin' ? (
                   <div className="flex-1">
-                    <p className="text-center text-gray-500 py-4">
+                    <p className="text-center text-warm-gray-500 py-4">
                       Admin users cannot book appointments
                     </p>
                   </div>
@@ -248,9 +248,9 @@ export default function ServiceDetailsPage() {
           </div>
 
           <div className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">About this Service</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-charcoal-900 mb-6 font-display">About this Service</h2>
             <div className="card p-6">
-              <div className="prose max-w-none text-gray-600">
+              <div className="prose max-w-none text-warm-gray-600">
                 <p>{service.description}</p>
                 <ul className="list-disc list-inside mt-4 space-y-2">
                   <li>Professional and certified specialists</li>

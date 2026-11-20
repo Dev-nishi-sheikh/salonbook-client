@@ -66,20 +66,20 @@ export function Sidebar({ isOpen, onClose, role }: SidebarProps) {
       
       <aside
         className={classNames(
-          'fixed top-0 left-0 z-50 h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out lg:relative lg:translate-x-0',
+          'fixed top-0 left-0 z-50 h-screen bg-white border-r border-warm-gray-200 transition-all duration-350 ease-out lg:relative lg:translate-x-0',
           isOpen ? 'translate-x-0 w-64' : '-translate-x-full w-0 lg:w-64'
         )}
         aria-label="Sidebar navigation"
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <Link href="/" className="flex items-center gap-2 text-xl font-bold text-salon-600">
+          <div className="flex items-center justify-between h-16 px-4 border-b border-warm-gray-200">
+            <Link href="/" className="flex items-center gap-2 text-xl font-bold text-rose-600">
               <span className="text-2xl">💇</span>
-              <span className="hidden lg:inline">SalonBook</span>
+              <span className="hidden lg:inline font-display">SalonBook</span>
             </Link>
             <button
               onClick={onClose}
-              className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100"
+              className="lg:hidden p-2 rounded-xl text-warm-gray-500 hover:bg-warm-gray-100 transition-colors"
               aria-label="Close sidebar"
             >
               <X className="h-5 w-5" />
@@ -96,26 +96,26 @@ export function Sidebar({ isOpen, onClose, role }: SidebarProps) {
                   href={item.href}
                   onClick={onClose}
                   className={classNames(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                    'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
                     isActive
-                      ? 'bg-salon-50 text-salon-600'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      ? 'bg-rose-50 text-rose-600'
+                      : 'text-charcoal-600 hover:bg-warm-gray-50 hover:text-charcoal-900'
                   )}
                   aria-current={isActive ? 'page' : undefined}
                 >
-                  <Icon className={classNames('h-5 w-5 flex-shrink-0', isActive ? 'text-salon-600' : 'text-gray-400')} />
+                  <Icon className={classNames('h-5 w-5 flex-shrink-0', isActive ? 'text-rose-600' : 'text-warm-gray-400')} />
                   <span className="truncate">{item.label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          <div className="p-3 border-t border-gray-200">
+          <div className="p-3 border-t border-warm-gray-200">
             <button
               onClick={handleLogout}
               className={classNames(
-                'flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-600',
-                'hover:bg-red-50 transition-colors'
+                'flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-red-600',
+                'hover:bg-red-50 transition-colors duration-200'
               )}
             >
               <LogOut className="h-5 w-5" />

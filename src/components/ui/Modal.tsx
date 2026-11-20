@@ -66,27 +66,27 @@ export function Modal({
       >
         <div className="flex min-h-full items-center justify-center p-4">
           <div
-            className="fixed inset-0 bg-black/50 transition-opacity"
+            className="modal-overlay"
             aria-hidden="true"
             onClick={closeOnOverlayClick ? onClose : undefined}
           />
           
           <div
             className={classNames(
-              'relative w-full bg-white rounded-xl shadow-xl transform transition-all',
+              'modal-content',
               sizes[size]
             )}
           >
             {(title || showCloseButton) && (
-              <div className="flex items-start justify-between p-6 border-b border-gray-100">
+              <div className="flex items-start justify-between p-6 border-b border-warm-gray-100">
                 <div>
                   {title && (
-                    <h2 id="modal-title" className="text-lg font-semibold text-gray-900">
+                    <h2 id="modal-title" className="text-heading-md font-semibold text-charcoal-900">
                       {title}
                     </h2>
                   )}
                   {description && (
-                    <p id="modal-description" className="mt-1 text-sm text-gray-500">
+                    <p id="modal-description" className="text-body-sm text-warm-gray-500 mt-1">
                       {description}
                     </p>
                   )}
@@ -94,7 +94,7 @@ export function Modal({
                 {showCloseButton && (
                   <button
                     onClick={onClose}
-                    className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100"
+                    className="text-warm-gray-400 hover:text-warm-gray-600 transition-colors p-1 rounded-xl hover:bg-warm-gray-100"
                     aria-label="Close modal"
                   >
                     <X className="h-5 w-5" />

@@ -42,11 +42,11 @@ function AuthCallbackContent() {
   }, [refreshUser, router, searchParams, isAuthenticated, user]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-1 flex items-center justify-center py-12 px-4">
         <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-salon-600 mx-auto mb-4" />
-          <p className="text-gray-600">Completing sign in...</p>
+          <Loader2 className="h-12 w-12 animate-spin text-rose-600 mx-auto mb-4" />
+          <p className="text-warm-gray-600">Completing sign in...</p>
         </div>
       </main>
     </div>
@@ -55,7 +55,7 @@ function AuthCallbackContent() {
 
 export default function AuthCallbackPage() {
   return (
-    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12 px-4"><div className="text-center"><Loader2 className="h-12 w-12 animate-spin text-salon-600 mx-auto mb-4" /><p className="text-gray-600">Loading...</p></div></main></div>}>
+    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12 px-4"><div className="text-center"><Loader2 className="h-12 w-12 animate-spin text-rose-600 mx-auto mb-4" /><p className="text-warm-gray-600">Loading...</p></div></main></div>}>
       <AuthCallbackContent />
     </Suspense>
   );

@@ -22,7 +22,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   'Spa & Massage': '🧘',
   'Hair Removal': '🧴',
   'Bridal': '👰',
-  'Men\'s Grooming': '🧔',
+  "Men's Grooming": '🧔',
 };
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
@@ -35,7 +35,7 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   'Spa & Massage': 'Relaxing spa treatments',
   'Hair Removal': 'Smooth and hair-free skin',
   'Bridal': 'Complete bridal packages',
-  'Men\'s Grooming': 'Tailored grooming for men',
+  "Men's Grooming": 'Tailored grooming for men',
 };
 
 export default function HomePage() {
@@ -76,33 +76,33 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1">
-        <section className="relative bg-gradient-to-br from-salon-600 via-salon-700 to-purple-800 text-white overflow-hidden">
+        <section className="relative bg-gradient-to-br from-rose-600 via-rose-700 to-rose-800 text-white overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920')] bg-cover bg-center opacity-10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-salon-600/90 to-purple-800/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-rose-600/90 to-rose-800/90" />
           
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
+          <div className="relative container-main py-20 sm:py-28 lg:py-40">
             <div className="max-w-3xl animate-in fade-in slide-in-from-left-4 duration-700">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 font-display">
                 Discover Your Perfect{' '}
-                <span className="text-salon-200">Salon Experience</span>
+                <span className="text-rose-200">Salon Experience</span>
               </h1>
-              <p className="text-lg sm:text-xl text-salon-100 mb-8 max-w-2xl leading-relaxed">
+              <p className="text-lg sm:text-xl text-rose-100 mb-8 max-w-2xl leading-relaxed">
                 Book premium salon services online with ease. From haircuts to spa treatments, 
                 find trusted professionals and schedule appointments that fit your busy lifestyle.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/browse">
-                  <Button size="lg" className="bg-white text-salon-600 hover:bg-salon-50 px-8 py-3 text-lg">
+                  <Button size="lg" className="bg-white text-rose-600 hover:bg-rose-50 px-8 py-3 text-lg btn-primary">
                     Explore Salon Services
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
                 <Link href="/auth/signup">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-3 text-lg">
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-3 text-lg btn-outline">
                     Get Started Free
                   </Button>
                 </Link>
@@ -110,11 +110,11 @@ export default function HomePage() {
             </div>
           </div>
           
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
         </section>
 
         <section className="py-16 sm:py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="container-main">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <FeatureCard icon={Sparkles} title="Expert Stylists" description="Certified professionals with years of experience in beauty and wellness." />
               <FeatureCard icon={Shield} title="Quality Guaranteed" description="Premium products and services with satisfaction guarantee." />
@@ -124,12 +124,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-16 sm:py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16 sm:py-24 bg-warm-gray-50">
+          <div className="container-main">
             <div className="flex items-center justify-between mb-10">
               <div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Featured Services</h2>
-                <p className="mt-2 text-gray-600">Our most popular salon services loved by customers</p>
+                <h2 className="text-3xl sm:text-4xl font-bold text-charcoal-900 font-display">Featured Services</h2>
+                <p className="mt-2 text-warm-gray-600">Our most popular salon services loved by customers</p>
               </div>
               <Link href="/browse">
                 <Button variant="ghost">
@@ -153,16 +153,16 @@ export default function HomePage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-500">No services available at the moment.</p>
+                <p className="text-warm-gray-500">No services available at the moment.</p>
               </div>
             )}
           </div>
         </section>
 
         <section className="py-16 sm:py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 text-center mb-4">Explore by Category</h2>
-            <p className="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
+          <div className="container-main">
+            <h2 className="text-3xl sm:text-4xl font-bold text-charcoal-900 text-center mb-4 font-display">Explore by Category</h2>
+            <p className="text-warm-gray-600 text-center mb-10 max-w-2xl mx-auto">
               Discover our wide range of professional salon services organized by category
             </p>
             
@@ -178,28 +178,28 @@ export default function HomePage() {
                   <Link
                     key={category}
                     href={`/browse?category=${encodeURIComponent(category)}`}
-                    className="group card p-6 text-center hover:shadow-lg transition-shadow"
+                    className="group card p-6 text-center card-hover"
                   >
                     <div className="text-4xl mb-3">{CATEGORY_ICONS[category] || '✨'}</div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-salon-600 transition-colors">
+                    <h3 className="font-semibold text-charcoal-900 group-hover:text-rose-600 transition-colors duration-200">
                       {category}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1">{CATEGORY_DESCRIPTIONS[category] || 'Professional salon services'}</p>
+                    <p className="text-body-sm text-warm-gray-500 mt-1">{CATEGORY_DESCRIPTIONS[category] || 'Professional salon services'}</p>
                   </Link>
                 ))}
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-500">No categories available at the moment.</p>
+                <p className="text-warm-gray-500">No categories available at the moment.</p>
               </div>
             )}
           </div>
         </section>
 
-        <section className="py-16 sm:py-24 bg-salon-600 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ready to Book Your Appointment?</h2>
-            <p className="text-salon-100 mb-8 max-w-2xl mx-auto">
+        <section className="py-16 sm:py-24 bg-gradient-to-br from-rose-600 via-rose-700 to-rose-800 text-white">
+          <div className="container-main text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-display">Ready to Book Your Appointment?</h2>
+            <p className="text-rose-100 mb-8 max-w-2xl mx-auto">
               Join thousands of satisfied customers. Book your next salon visit in just a few clicks.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -225,40 +225,40 @@ export default function HomePage() {
 
 function FeatureCard({ icon: Icon, title, description }: { icon: React.ComponentType<{ className?: string }>; title: string; description: string }) {
   return (
-    <div className="card p-6 text-center hover:shadow-md transition-shadow">
-      <div className="w-14 h-14 mx-auto mb-4 bg-salon-100 rounded-xl flex items-center justify-center">
-        <Icon className="h-7 w-7 text-salon-600" />
+    <div className="card p-6 text-center card-hover">
+      <div className="w-14 h-14 mx-auto mb-4 bg-rose-50 rounded-2xl flex items-center justify-center">
+        <Icon className="h-7 w-7 text-rose-600" />
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <h3 className="text-heading-sm font-semibold text-charcoal-900 mb-2">{title}</h3>
+      <p className="text-body-sm text-warm-gray-600">{description}</p>
     </div>
   );
 }
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <Link href={`/services/${service._id}`} className="card group overflow-hidden">
+    <Link href={`/services/${service._id}`} className="card group overflow-hidden card-hover">
       <div className="aspect-[4/3] overflow-hidden">
         <img
           src={service.image}
           alt={service.serviceName}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
       </div>
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-2">
+      <div className="p-5">
+        <div className="flex items-center justify-between mb-2.5">
           <Badge variant={service.status === 'active' ? 'active' : 'inactive'} size="sm">
             {service.status}
           </Badge>
-          <span className="text-sm font-semibold text-gray-900">{formatCurrency(service.price)}</span>
+          <span className="text-body-sm font-semibold text-charcoal-900">{formatCurrency(service.price)}</span>
         </div>
-        <h3 className="font-semibold text-gray-900 group-hover:text-salon-600 transition-colors mb-1">
+        <h3 className="text-heading-sm font-semibold text-charcoal-900 group-hover:text-rose-600 transition-colors duration-200 mb-1">
           {service.serviceName}
         </h3>
-        <p className="text-sm text-gray-500 mb-2">{service.category}</p>
-        <p className="text-sm text-gray-600 line-clamp-2 mb-3">{service.description}</p>
-        <div className="flex items-center gap-4 text-sm text-gray-500">
+        <p className="text-body-sm text-warm-gray-500 mb-2">{service.category}</p>
+        <p className="text-body-sm text-warm-gray-600 line-clamp-2 mb-3">{service.description}</p>
+        <div className="flex items-center gap-4 text-body-sm text-warm-gray-500">
           <span className="flex items-center gap-1">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -274,13 +274,13 @@ function ServiceCard({ service }: { service: Service }) {
 function ServiceCardSkeleton() {
   return (
     <div className="card overflow-hidden animate-pulse">
-      <div className="aspect-[4/3] bg-gray-200" />
-      <div className="p-4 space-y-3">
-        <div className="h-5 bg-gray-200 rounded w-3/4" />
-        <div className="h-4 bg-gray-200 rounded w-1/2" />
-        <div className="h-4 bg-gray-200 rounded w-1/3" />
-        <div className="h-4 bg-gray-200 rounded w-5/6" />
-        <div className="h-4 bg-gray-200 rounded w-4/6" />
+      <div className="aspect-[4/3] bg-warm-gray-200" />
+      <div className="p-5 space-y-3">
+        <div className="h-5 bg-warm-gray-200 rounded w-3/4" />
+        <div className="h-4 bg-warm-gray-200 rounded w-1/2" />
+        <div className="h-4 bg-warm-gray-200 rounded w-1/3" />
+        <div className="h-4 bg-warm-gray-200 rounded w-5/6" />
+        <div className="h-4 bg-warm-gray-200 rounded w-4/6" />
       </div>
     </div>
   );
@@ -290,10 +290,10 @@ function CategoryCardSkeleton() {
   return (
     <div className="card p-6 text-center animate-pulse">
       <div className="text-4xl mb-3">
-        <div className="h-10 w-10 bg-gray-200 rounded-full mx-auto" />
+        <div className="h-10 w-10 bg-warm-gray-200 rounded-full mx-auto" />
       </div>
-      <div className="h-5 bg-gray-200 rounded w-3/4 mx-auto mb-1" />
-      <div className="h-4 bg-gray-200 rounded w-full" />
+      <div className="h-5 bg-warm-gray-200 rounded w-3/4 mx-auto mb-1" />
+      <div className="h-4 bg-warm-gray-200 rounded w-full" />
     </div>
   );
 }

@@ -87,29 +87,29 @@ export default function BrowseServicesPage() {
   const hasFilters = search || selectedCategory;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1 pt-20">
-        <section className="bg-white py-8 border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="bg-white py-8 border-b border-warm-gray-100">
+          <div className="container-main">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">Browse Services</h1>
-              <p className="text-gray-600 mt-1">Explore our salon services and find the perfect treatment for you</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-charcoal-900 font-display">Browse Services</h1>
+              <p className="text-warm-gray-600 mt-1">Explore our salon services and find the perfect treatment for you</p>
             </div>
 
             <form onSubmit={handleSearch} className="space-y-4 md:space-y-0 md:flex md:items-end md:gap-4">
               <div className="md:flex-1">
                 <label htmlFor="search" className="sr-only">Search services</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-warm-gray-400" />
                   <input
                     id="search"
                     type="text"
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search services by name..."
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
+                    className="input pl-10"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default function BrowseServicesPage() {
                 />
               </div>
 
-              <div className="md:w-48">
+              <div className="md:w-56">
                 <Select
                   label="Sort By"
                   options={[
@@ -158,8 +158,8 @@ export default function BrowseServicesPage() {
           </div>
         </section>
 
-        <section className="py-8 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-8 bg-warm-gray-50">
+          <div className="container-main">
             {isLoading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map(i => (
@@ -184,7 +184,7 @@ export default function BrowseServicesPage() {
                     >
                       Previous
                     </Button>
-                    <span className="px-4 text-sm text-gray-600">
+                    <span className="px-4 text-body-sm text-warm-gray-600">
                       Page {pagination.page} of {pagination.pages}
                     </span>
                     <Button
@@ -200,9 +200,9 @@ export default function BrowseServicesPage() {
               </>
             ) : (
               <div className="text-center py-16">
-                <Filter className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No services found</h3>
-                <p className="text-gray-500 mb-4">Try adjusting your search or filters</p>
+                <Filter className="h-12 w-12 text-warm-gray-300 mx-auto mb-4" />
+                <h3 className="text-heading-sm font-medium text-charcoal-900 mb-2">No services found</h3>
+                <p className="text-warm-gray-500 mb-4">Try adjusting your search or filters</p>
                 <Button onClick={clearFilters}>Clear All Filters</Button>
               </div>
             )}
@@ -217,12 +217,12 @@ export default function BrowseServicesPage() {
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <Link href={`/services/${service._id}`} className="card group overflow-hidden h-full flex flex-col">
+    <Link href={`/services/${service._id}`} className="card group overflow-hidden h-full flex flex-col card-hover">
       <div className="aspect-[4/3] overflow-hidden relative">
         <img
           src={service.image}
           alt={service.serviceName}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
         <div className="absolute top-3 right-3">
@@ -231,16 +231,16 @@ function ServiceCard({ service }: { service: Service }) {
           </Badge>
         </div>
       </div>
-      <div className="p-4 flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-salon-600">{service.category}</span>
-          <span className="text-lg font-bold text-gray-900">{formatCurrency(service.price)}</span>
+      <div className="p-5 flex flex-col flex-1">
+        <div className="flex items-center justify-between mb-2.5">
+          <span className="text-body-sm font-medium text-rose-600">{service.category}</span>
+          <span className="text-heading-sm font-bold text-charcoal-900">{formatCurrency(service.price)}</span>
         </div>
-        <h3 className="font-semibold text-gray-900 group-hover:text-salon-600 transition-colors mb-1 flex-1">
+        <h3 className="text-heading-sm font-semibold text-charcoal-900 group-hover:text-rose-600 transition-colors duration-200 mb-1 flex-1">
           {service.serviceName}
         </h3>
-        <p className="text-sm text-gray-600 line-clamp-2 mb-3">{service.description}</p>
-        <div className="flex items-center gap-4 text-sm text-gray-500 pt-2 border-t border-gray-100">
+        <p className="text-body-sm text-warm-gray-600 line-clamp-2 mb-3">{service.description}</p>
+        <div className="flex items-center gap-4 text-body-sm text-warm-gray-500 pt-2 border-t border-warm-gray-100">
           <span className="flex items-center gap-1">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -256,17 +256,17 @@ function ServiceCard({ service }: { service: Service }) {
 function ServiceCardSkeleton() {
   return (
     <div className="card overflow-hidden animate-pulse flex flex-col h-full">
-      <div className="aspect-[4/3] bg-gray-200" />
-      <div className="p-4 flex flex-col flex-1 space-y-3">
+      <div className="aspect-[4/3] bg-warm-gray-200" />
+      <div className="p-5 flex flex-col flex-1 space-y-3">
         <div className="flex justify-between">
-          <div className="h-5 bg-gray-200 rounded w-24" />
-          <div className="h-6 bg-gray-200 rounded w-20" />
+          <div className="h-5 bg-warm-gray-200 rounded w-24" />
+          <div className="h-6 bg-warm-gray-200 rounded w-20" />
         </div>
-        <div className="h-5 bg-gray-200 rounded w-3/4" />
-        <div className="h-4 bg-gray-200 rounded w-full flex-1" />
-        <div className="h-4 bg-gray-200 rounded w-4/6" />
-        <div className="pt-2 border-t border-gray-100">
-          <div className="h-4 bg-gray-200 rounded w-24" />
+        <div className="h-5 bg-warm-gray-200 rounded w-3/4" />
+        <div className="h-4 bg-warm-gray-200 rounded w-full flex-1" />
+        <div className="h-4 bg-warm-gray-200 rounded w-4/6" />
+        <div className="pt-2 border-t border-warm-gray-100">
+          <div className="h-4 bg-warm-gray-200 rounded w-24" />
         </div>
       </div>
     </div>

@@ -77,20 +77,20 @@ function SignUpContent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-1 flex items-center justify-center py-8 px-4">
+    <div className="flex flex-col min-h-screen bg-white">
+      <main className="flex-1 flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2 text-3xl font-bold text-salon-600 mb-6">
+            <Link href="/" className="inline-flex items-center gap-2 text-3xl font-bold text-rose-600 mb-6 font-display">
               <span className="text-4xl">💇</span>
               SalonBook
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Create your account</h1>
-            <p className="text-gray-600 mt-2">Join SalonBook and start booking appointments</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-charcoal-900 font-display">Create your account</h1>
+            <p className="text-warm-gray-600 mt-2">Join SalonBook and start booking appointments</p>
           </div>
 
-          <Card className="p-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <Card className="p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <Input
                 label="Full Name"
                 type="text"
@@ -127,7 +127,7 @@ function SignUpContent() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-warm-gray-400 hover:text-warm-gray-600 transition-colors"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -150,7 +150,7 @@ function SignUpContent() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-warm-gray-400 hover:text-warm-gray-600 transition-colors"
                     aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                   >
                     {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -161,18 +161,18 @@ function SignUpContent() {
               />
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Profile Image (Optional)</label>
+                <label className="label">Profile Image (Optional)</label>
                 <div className="relative">
                   <input
                     type="url"
                     value={formData.image}
                     onChange={e => setFormData(prev => ({ ...prev, image: e.target.value }))}
                     placeholder="https://example.com/image.jpg"
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
+                    className="input pl-10"
                   />
-                  <Image className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Image className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-warm-gray-400" />
                 </div>
-                <p className="text-xs text-gray-500">Enter an image URL or leave blank for default avatar</p>
+                <p className="helper-text">Enter an image URL or leave blank for default avatar</p>
               </div>
 
               <Button type="submit" className="w-full" size="lg" isLoading={isLoading}>
@@ -182,10 +182,10 @@ function SignUpContent() {
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-warm-gray-200" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-white text-warm-gray-500">Or continue with</span>
               </div>
             </div>
 
@@ -218,9 +218,9 @@ function SignUpContent() {
             </Button>
           </Card>
 
-          <p className="text-center text-gray-600 mt-6">
+          <p className="text-center text-warm-gray-600 mt-6">
             Already have an account?{' '}
-            <Link href={`/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`} className="text-salon-600 hover:text-salon-700 font-medium">
+            <Link href={`/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`} className="text-rose-600 hover:text-rose-700 font-medium transition-colors">
               Sign in
             </Link>
           </p>
@@ -232,7 +232,7 @@ function SignUpContent() {
 
 export default function SignUpPage() {
   return (
-    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-8 px-4"><div className="h-8 w-8 animate-spin rounded-full border-4 border-salon-600 border-t-transparent" /></main></div>}>
+    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12 px-4"><div className="h-8 w-8 animate-spin rounded-full border-4 border-rose-600 border-t-transparent" /></main></div>}>
       <SignUpContent />
     </Suspense>
   );

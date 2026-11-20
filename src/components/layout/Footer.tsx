@@ -40,15 +40,15 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+    <footer className="bg-charcoal-900 text-warm-gray-300">
+      <div className="container-main py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-white mb-4">
               <span className="text-3xl">💇</span>
-              SalonBook
+              <span className="font-display">SalonBook</span>
             </Link>
-            <p className="text-gray-400 max-w-sm mb-6">
+            <p className="text-warm-gray-400 max-w-sm mb-6 leading-relaxed">
               Your premier destination for professional salon services. Book appointments online with ease and enjoy exceptional beauty experiences.
             </p>
             <div className="flex gap-4">
@@ -56,7 +56,7 @@ export function Footer() {
                 <a
                   key={social.name}
                   href={social.href}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200"
                   aria-label={social.name}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -68,11 +68,11 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-semibold mb-4 text-heading-sm">Quick Links</h3>
+            <ul className="space-y-2.5">
               {navigationLinks.QuickLinks.map(link => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                  <Link href={link.href} className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200">
                     {link.name}
                   </Link>
                 </li>
@@ -81,11 +81,11 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Services</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-semibold mb-4 text-heading-sm">Services</h3>
+            <ul className="space-y-2.5">
               {navigationLinks.Services.map(link => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                  <Link href={link.href} className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200">
                     {link.name}
                   </Link>
                 </li>
@@ -94,40 +94,40 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-3">
+            <h3 className="text-white font-semibold mb-4 text-heading-sm">Contact Us</h3>
+            <ul className="space-y-3.5">
               <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-salon-400 mt-0.5 flex-shrink-0" />
-                <address className="not-italic text-gray-400 text-sm">{contactInfo.address}</address>
+                <MapPin className="h-5 w-5 text-rose-400 mt-0.5 flex-shrink-0" />
+                <address className="not-italic text-warm-gray-400 text-body-sm">{contactInfo.address}</address>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-salon-400 flex-shrink-0" />
-                <a href={`tel:${contactInfo.phone}`} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Phone className="h-5 w-5 text-rose-400 flex-shrink-0" />
+                <a href={`tel:${contactInfo.phone}`} className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200 text-body-sm">
                   {contactInfo.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-salon-400 flex-shrink-0" />
-                <a href={`mailto:${contactInfo.email}`} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Mail className="h-5 w-5 text-rose-400 flex-shrink-0" />
+                <a href={`mailto:${contactInfo.email}`} className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200 text-body-sm">
                   {contactInfo.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Clock className="h-5 w-5 text-salon-400 mt-0.5 flex-shrink-0" />
-                <div className="text-gray-400 text-sm whitespace-pre-line">{contactInfo.hours}</div>
+                <Clock className="h-5 w-5 text-rose-400 mt-0.5 flex-shrink-0" />
+                <div className="text-warm-gray-400 text-body-sm whitespace-pre-line">{contactInfo.hours}</div>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800">
+        <div className="mt-14 pt-8 border-t border-charcoal-800">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-400 text-sm">
+            <p className="text-warm-gray-400 text-body-sm">
               © {new Date().getFullYear()} SalonBook. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               {navigationLinks.Support.map(link => (
-                <Link key={link.name} href={link.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link key={link.name} href={link.href} className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200 text-body-sm">
                   {link.name}
                 </Link>
               ))}

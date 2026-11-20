@@ -54,20 +54,20 @@ function SignInContent() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-1 flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2 text-3xl font-bold text-salon-600 mb-6">
+            <Link href="/" className="inline-flex items-center gap-2 text-3xl font-bold text-rose-600 mb-6 font-display">
               <span className="text-4xl">💇</span>
               SalonBook
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-            <p className="text-gray-600 mt-2">Sign in to your account to continue</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-charcoal-900 font-display">Welcome back</h1>
+            <p className="text-warm-gray-600 mt-2">Sign in to your account to continue</p>
           </div>
 
-          <Card className="p-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <Card className="p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <Input
                 label="Email"
                 type="email"
@@ -92,7 +92,7 @@ function SignInContent() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-warm-gray-400 hover:text-warm-gray-600 transition-colors"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -103,11 +103,11 @@ function SignInContent() {
               />
 
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="w-4 h-4 text-salon-600 border-gray-300 rounded focus:ring-salon-500" />
-                  <span className="text-sm text-gray-600">Remember me</span>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" className="w-4 h-4 text-rose-600 border-warm-gray-300 rounded focus:ring-rose-500" />
+                  <span className="text-body-sm text-warm-gray-600">Remember me</span>
                 </label>
-                <Link href="/auth/forgot-password" className="text-sm text-salon-600 hover:text-salon-700">
+                <Link href="/auth/forgot-password" className="text-body-sm text-rose-600 hover:text-rose-700 font-medium transition-colors">
                   Forgot password?
                 </Link>
               </div>
@@ -119,10 +119,10 @@ function SignInContent() {
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-warm-gray-200" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-white text-warm-gray-500">Or continue with</span>
               </div>
             </div>
 
@@ -155,9 +155,9 @@ function SignInContent() {
             </Button>
           </Card>
 
-          <p className="text-center text-gray-600 mt-6">
+          <p className="text-center text-warm-gray-600 mt-6">
             Don't have an account?{' '}
-            <Link href={`/auth/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`} className="text-salon-600 hover:text-salon-700 font-medium">
+            <Link href={`/auth/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`} className="text-rose-600 hover:text-rose-700 font-medium transition-colors">
               Sign up
             </Link>
           </p>
@@ -169,7 +169,7 @@ function SignInContent() {
 
 export default function SignInPage() {
   return (
-    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12 px-4"><Loader2 className="h-8 w-8 animate-spin text-salon-600" /></main></div>}>
+    <Suspense fallback={<div className="flex flex-col min-h-screen"><main className="flex-1 flex items-center justify-center py-12 px-4"><Loader2 className="h-8 w-8 animate-spin text-rose-600" /></main></div>}>
       <SignInContent />
     </Suspense>
   );
