@@ -91,9 +91,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // Ask Better Auth for the authorize URL instead of relying on the automatic
       // redirect, so failures can be surfaced to the user instead of silently ignored.
+      // An absolute callback URL keeps the redirect correct for both the production
+      // origin and a separate dev origin.
+      const callbackURL =
+        typeof window !== 'undefined'
+          ? `${window.location.origin}/auth/callback`
+          : '/auth/callback';
+
       const { data, error } = await signIn.social({
         provider: 'google',
-        callbackURL: '/auth/callback',
+        callbackURL,
         disableRedirect: true,
       });
 
