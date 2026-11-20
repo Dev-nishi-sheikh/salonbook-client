@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Filter, Calendar, Clock, User, CheckCircle, XCircle, AlertCircle, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+
+
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -87,27 +87,27 @@ export default function AdminAppointmentsPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center">
+      <div className="w-full">
+
+        <div className="flex min-h-[60vh] items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
-        </main>
-        <Footer />
+        </div>
+
       </div>
     );
   }
 
   if (!isAuthenticated || user?.role !== 'admin') {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center py-12">
+      <div className="w-full">
+
+        <div className="flex min-h-[60vh] items-center justify-center py-12">
           <div className="text-center">
             <p className="text-warm-gray-600">Access denied. Admin privileges required.</p>
             <Button onClick={() => router.push('/')} className="mt-4">Go Home</Button>
           </div>
-        </main>
-        <Footer />
+        </div>
+
       </div>
     );
   }
@@ -126,11 +126,10 @@ export default function AdminAppointmentsPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <Navbar />
-      
-      <main className="flex-1 py-8">
-        <div className="container-main">
+    <div className="w-full">
+
+      <div className="w-full">
+        <div className="w-full">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-charcoal-900 font-display">Manage Appointments</h1>
             <p className="text-warm-gray-600 mt-1">View and manage all appointment requests</p>
@@ -216,9 +215,7 @@ export default function AdminAppointmentsPage() {
             </Card>
           )}
         </div>
-      </main>
-
-      <Footer />
+      </div>
 
       <Modal
         isOpen={showModal}

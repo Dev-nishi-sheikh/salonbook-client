@@ -66,15 +66,18 @@ export function Sidebar({ isOpen, onClose, role }: SidebarProps) {
       
       <aside
         className={classNames(
-          'fixed top-0 left-0 z-50 h-screen bg-white border-r border-warm-gray-200 transition-all duration-350 ease-out lg:relative lg:translate-x-0',
-          isOpen ? 'translate-x-0 w-64' : '-translate-x-full w-0 lg:w-64'
+          // Fixed at every breakpoint: when `lg:relative` was used the sidebar
+          // stayed in normal flow at h-screen and pushed the whole dashboard
+          // below a full viewport-height block.
+          'fixed top-0 left-0 z-50 h-screen w-64 bg-white border-r border-warm-gray-200 transition-transform duration-200 ease-out lg:translate-x-0',
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
         aria-label="Sidebar navigation"
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between h-16 px-4 border-b border-warm-gray-200">
             <Link href="/" className="flex items-center text-lg font-bold text-charcoal-900">
-              <span className="hidden lg:inline font-display">SalonBook</span>
+              <span className="font-display">SalonBook</span>
             </Link>
             <button
               onClick={onClose}

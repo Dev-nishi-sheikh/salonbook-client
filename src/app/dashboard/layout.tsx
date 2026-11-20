@@ -68,12 +68,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         role={user!.role}
       />
 
-      <div className="lg:pl-64">
+      {/* Sidebar is fixed, so the content column is offset rather than flowed. */}
+      <div className="flex min-h-screen flex-col lg:pl-64">
         <header className="sticky top-0 z-30 bg-white border-b border-warm-gray-200 lg:hidden">
           <div className="flex items-center justify-between h-16 px-4">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-xl text-warm-gray-500 hover:bg-warm-gray-100 transition-colors"
+              className="p-2 rounded-sm text-warm-gray-500 hover:bg-warm-gray-100 transition-colors"
               aria-label="Open menu"
             >
               <Menu className="h-6 w-6" />
@@ -83,7 +84,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
         </header>
 
-        <main className="p-4 lg:p-8 pt-0 lg:pt-8">
+        <main className="flex-1 p-4 lg:p-8">
           {children}
         </main>
       </div>

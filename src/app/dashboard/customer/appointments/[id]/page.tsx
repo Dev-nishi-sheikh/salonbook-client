@@ -5,8 +5,6 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, MapPin, User, CheckCircle, AlertCircle, XCircle, CreditCard, Loader2, X } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -93,21 +91,21 @@ export default function AppointmentDetailPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center">
+      <div className="w-full">
+
+        <div className="flex min-h-[60vh] items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
-        </main>
-        <Footer />
+        </div>
+
       </div>
     );
   }
 
   if (error || !appointment) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center py-12 px-4">
+      <div className="w-full">
+
+        <div className="flex min-h-[60vh] items-center justify-center py-12 px-4">
           <div className="text-center max-w-md">
             <AlertCircle className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-charcoal-900 mb-2">Appointment Not Found</h1>
@@ -116,33 +114,32 @@ export default function AppointmentDetailPage() {
               <Button>Back to Appointments</Button>
             </Link>
           </div>
-        </main>
-        <Footer />
+        </div>
+
       </div>
     );
   }
 
   if (!isAuthenticated) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center py-12">
+      <div className="w-full">
+
+        <div className="flex min-h-[60vh] items-center justify-center py-12">
           <div className="text-center">
             <p className="text-warm-gray-600">Please sign in to view appointment details</p>
             <Button onClick={() => router.push('/auth/signin')} className="mt-4">Sign In</Button>
           </div>
-        </main>
-        <Footer />
+        </div>
+
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <Navbar />
-      
-      <main className="flex-1 py-8">
-        <div className="container-main">
+    <div className="w-full">
+
+      <div className="w-full">
+        <div className="w-full">
           <Link
             href="/dashboard/customer/appointments"
             className="inline-flex items-center gap-2 text-warm-gray-600 hover:text-rose-600 mb-6 transition-colors duration-200"
@@ -252,9 +249,7 @@ export default function AppointmentDetailPage() {
             </Card>
           </div>
         </div>
-      </main>
-
-      <Footer />
+      </div>
 
       <Modal
         isOpen={showCancelModal}
