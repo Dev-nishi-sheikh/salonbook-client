@@ -79,19 +79,19 @@ export default function HomePage() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero: full-width cover image with a solid overlay for text contrast */}
-        <section className="relative">
+        {/* Hero: fills the first viewport; everything else is below the fold */}
+        <section className="relative flex min-h-[100svh] w-full items-center overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920')",
+                "url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=2400&q=80')",
             }}
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-black/55" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
 
-          <div className="relative container-main py-24 sm:py-28 lg:py-32">
+          <div className="relative container-main w-full py-24 sm:py-28 lg:py-32">
             <div className="max-w-2xl">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">
                 Discover Your Perfect Salon Experience
