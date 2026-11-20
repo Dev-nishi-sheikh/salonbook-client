@@ -60,7 +60,7 @@ export default function AdminServicesPage() {
           page: pagination.page,
           limit: pagination.limit,
           search: search || undefined,
-          status: statusFilter || undefined,
+          status: statusFilter || 'all',
         });
         if (response.success && response.data) {
           setServices(response.data);
@@ -166,7 +166,7 @@ export default function AdminServicesPage() {
             page: pagination.page,
             limit: pagination.limit,
             search: search || undefined,
-            status: statusFilter || undefined,
+            status: statusFilter || 'all',
           });
           if (res.success && res.data) {
             setServices(res.data);

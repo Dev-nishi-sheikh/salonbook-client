@@ -105,7 +105,7 @@ export interface PaginationParams {
   category?: string;
   sortBy?: 'price' | 'createdAt' | 'serviceName';
   sortOrder?: 'asc' | 'desc';
-  status?: AppointmentStatus | ServiceStatus;
+  status?: AppointmentStatus | ServiceStatus | 'all';
   paymentStatus?: PaymentStatus;
 }
 
