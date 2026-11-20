@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Filter, CreditCard, DollarSign, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Filter, CreditCard, DollarSign, Loader2, ChevronLeft, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { api } from '@/lib/api';
 import { Transaction, type TransactionStatus as TransactionStatusType } from '@/types';
-import { formatCurrency, formatDate, formatTime, getStatusBadgeClass, getStatusLabel } from '@/lib/utils';
+import { formatCurrency, formatDate, formatTime, getStatusBadgeClass, getStatusLabel, classNames } from '@/lib/utils';
 
 export default function AdminTransactionsPage() {
   const router = useRouter();
@@ -242,6 +242,3 @@ function TransactionRowSkeleton() {
     </tr>
   );
 }
-
-import { CheckCircle, XCircle } from 'lucide-react';
-import { classNames } from '@/lib/utils';
