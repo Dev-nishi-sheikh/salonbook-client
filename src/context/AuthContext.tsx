@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const googleLogin = async (): Promise<void> => {
     try {
-      await signIn.social({ provider: 'google', callbackURL: '/dashboard/customer/overview' });
+      await signIn.social({ provider: 'google', callbackURL: '/auth/callback' });
     } catch (error: any) {
       toast.error(error.message || 'Google login failed');
     }

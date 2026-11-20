@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, CreditCard, Loader2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, CreditCard, Loader2, Trash2, ChevronLeft, ChevronRight, DollarSign, Eye } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -223,77 +223,83 @@ function AppointmentCard({ appointment, onCancel, onPay }: { appointment: Appoin
   const paymentStatus = appointment.paymentStatus as PaymentStatusType;
 
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-0">
-        <div className="flex flex-col md:flex-row">
-          {service?.image && (
-            <img
-              src={service.image}
-              alt={service.serviceName}
-              className="w-full md:w-32 h-32 md:h-auto object-cover"
-            />
-          )}
-          <div className="flex-1 p-4 md:p-6">
-            <div className="flex items-start justify-between mb-3">
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-1">{service?.serviceName || 'Service'}</h4>
-                <p className="text-sm text-gray-500">{service?.category}</p>
-              </div>
-              <Badge variant={getStatusBadgeClass(status)}>{getStatusLabel(status)}</Badge>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
-              <div className="flex items-center gap-2 text-gray-500">
-                <Calendar className="h-4 w-4" />
-                <span>{formatDate(appointment.appointmentDate)}</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-500">
-                <Clock className="h-4 w-4" />
-                <span>{formatTime(appointment.timeSlot)}</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-500">
-                <CreditCard className="h-4 w-4" />
-                <span>{formatCurrency(appointment.servicePrice)}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant={getStatusBadgeClass(paymentStatus)}>{getStatusLabel(paymentStatus)}</Badge>
-              </div>
-            </div>
-
-            {appointment.message && (
-              <p className="text-sm text-gray-600 mb-4 italic">"{appointment.message}"</p>
+    <Link href={`/dashboard/customer/appointments/${appointment._id}`} className="block">
+      <Card className="overflow-hidden hover:shadow-md transition-shadow">
+        <CardContent className="p-0">
+          <div className="flex flex-col md:flex-row">
+            {service?.image && (
+              <img
+                src={service.image}
+                alt={service.serviceName}
+                className="w-full md:w-32 h-32 md:h-auto object-cover"
+              />
             )}
+            <div className="flex-1 p-4 md:p-6">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-1">{service?.serviceName || 'Service'}</h4>
+                  <p className="text-sm text-gray-500">{service?.category}</p>
+                </div>
+                <Badge variant={getStatusBadgeClass(status)}>{getStatusLabel(status)}</Badge>
+              </div>
 
-            <div className="flex flex-wrap gap-2">
-              {canCancelAppointment(appointment) && (
-                <Button variant="outline" size="sm" onClick={onCancel}>
-                  <XCircle className="h-4 w-4 mr-1" />
-                  Cancel
-                </Button>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
+                <div className="flex items-center gap-2 text-gray-500">
+                  <Calendar className="h-4 w-4" />
+                  <span>{formatDate(appointment.appointmentDate)}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500">
+                  <Clock className="h-4 w-4" />
+                  <span>{formatTime(appointment.timeSlot)}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500">
+                  <CreditCard className="h-4 w-4" />
+                  <span>{formatCurrency(appointment.servicePrice)}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant={getStatusBadgeClass(paymentStatus)}>{getStatusLabel(paymentStatus)}</Badge>
+                </div>
+              </div>
+
+              {appointment.message && (
+                <p className="text-sm text-gray-600 mb-4 italic">"{appointment.message}"</p>
               )}
-              {canPayForAppointment(appointment) && (
-                <Button size="sm" onClick={onPay}>
-                  <CreditCard className="h-4 w-4 mr-1" />
-                  Pay Now
+
+              <div className="flex flex-wrap gap-2">
+                <Button variant="ghost" size="sm" className="text-salon-600 hover:text-salon-700">
+                  <Eye className="h-4 w-4 mr-1" />
+                  View Details
                 </Button>
-              )}
-              {status === 'confirmed' && paymentStatus === 'paid' && (
-                <Button variant="ghost" size="sm" disabled>
-                  <CheckCircle className="h-4 w-4 mr-1 text-green-600" />
-                  Completed
-                </Button>
-              )}
-              {status === 'cancelled' && (
-                <Button variant="ghost" size="sm" disabled>
-                  <XCircle className="h-4 w-4 mr-1 text-red-600" />
-                  Cancelled
-                </Button>
-              )}
+                {canCancelAppointment(appointment) && (
+                  <Button variant="outline" size="sm" onClick={(e) => { e.preventDefault(); onCancel(); }}>
+                    <XCircle className="h-4 w-4 mr-1" />
+                    Cancel
+                  </Button>
+                )}
+                {canPayForAppointment(appointment) && (
+                  <Button size="sm" onClick={(e) => { e.preventDefault(); onPay(); }}>
+                    <CreditCard className="h-4 w-4 mr-1" />
+                    Pay Now
+                  </Button>
+                )}
+                {status === 'confirmed' && paymentStatus === 'paid' && (
+                  <Button variant="ghost" size="sm" disabled>
+                    <CheckCircle className="h-4 w-4 mr-1 text-green-600" />
+                    Completed
+                  </Button>
+                )}
+                {status === 'cancelled' && (
+                  <Button variant="ghost" size="sm" disabled>
+                    <XCircle className="h-4 w-4 mr-1 text-red-600" />
+                    Cancelled
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 

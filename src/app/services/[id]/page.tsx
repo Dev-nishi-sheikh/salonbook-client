@@ -139,7 +139,7 @@ export default function ServiceDetailsPage() {
     );
   }
 
-  const canBook = service.status === 'active' && isAuthenticated;
+  const canBook = service.status === 'active' && isAuthenticated && user?.role !== 'admin';
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -206,7 +206,13 @@ export default function ServiceDetailsPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                {canBook ? (
+                {isAuthenticated && user?.role === 'admin' ? (
+                  <div className="flex-1">
+                    <p className="text-center text-gray-500 py-4">
+                      Admin users cannot book appointments
+                    </p>
+                  </div>
+                ) : canBook ? (
                   <Button
                     onClick={() => setShowBookingModal(true)}
                     size="lg"

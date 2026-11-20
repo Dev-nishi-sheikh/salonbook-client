@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, Search, Filter, Edit, Trash2, Eye, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, Search, Filter, Edit, Trash2, Eye, Loader2, ChevronLeft, ChevronRight, Image as ImageIcon, X } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -37,6 +37,7 @@ export default function AdminServicesPage() {
     duration: number;
     image: string;
     status: ServiceStatusType;
+    imageFile: File | null;
   }>({
     serviceName: '',
     category: '',
@@ -45,6 +46,7 @@ export default function AdminServicesPage() {
     duration: 30,
     image: '',
     status: ServiceStatus.ACTIVE,
+    imageFile: null,
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -83,7 +85,7 @@ export default function AdminServicesPage() {
     else if (formData.description.length < 10) errors.description = 'Description must be at least 10 characters';
     if (formData.price <= 0) errors.price = 'Price must be positive';
     if (formData.duration <= 0) errors.duration = 'Duration must be positive';
-    if (!formData.image.trim()) errors.image = 'Image URL is required';
+    if (!formData.imageFile && !formData.image.trim()) errors.image = 'Image is required (upload file or provide URL)';
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -97,6 +99,7 @@ export default function AdminServicesPage() {
       duration: 30,
       image: '',
       status: ServiceStatus.ACTIVE,
+      imageFile: null,
     });
     setFormErrors({});
     setPreviewImage(null);
@@ -118,6 +121,7 @@ export default function AdminServicesPage() {
       duration: service.duration,
       image: service.image,
       status: service.status,
+      imageFile: null,
     });
     setPreviewImage(service.image);
     setFormErrors({});
@@ -132,8 +136,14 @@ export default function AdminServicesPage() {
     try {
       const formDataObj = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        formDataObj.append(key, value.toString());
+        if (key !== 'imageFile' && value !== null && value !== undefined) {
+          formDataObj.append(key, value.toString());
+        }
       });
+      // Append image file if selected
+      if (formData.imageFile) {
+        formDataObj.append('image', formData.imageFile);
+      }
 
       let response;
       if (editingService) {
@@ -403,23 +413,60 @@ export default function AdminServicesPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Image URL</label>
-            <div className="relative">
-              <input
-                type="url"
-                value={formData.image}
-                onChange={e => { setFormData(prev => ({ ...prev, image: e.target.value })); setPreviewImage(e.target.value); }}
-                placeholder="https://example.com/image.jpg"
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
-              />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">https://</span>
-            </div>
-            {formErrors.image && <p className="text-sm text-red-600">{formErrors.image}</p>}
-            {previewImage && (
-              <div className="mt-2">
-                <img src={previewImage} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-gray-200" />
+            <label className="block text-sm font-medium text-gray-700">Image</label>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setFormData(prev => ({ ...prev, imageFile: file, image: '' }));
+                        setPreviewImage(URL.createObjectURL(file));
+                      }
+                    }}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-salon-50 file:text-salon-700 hover:file:bg-salon-100"
+                  />
+                </div>
               </div>
-            )}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Or Enter Image URL</label>
+                <div className="relative">
+                  <input
+                    type="url"
+                    value={formData.image}
+                    onChange={e => { setFormData(prev => ({ ...prev, image: e.target.value, imageFile: null })); setPreviewImage(e.target.value || null); }}
+                    placeholder="https://example.com/image.jpg"
+                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
+                  />
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">https://</span>
+                </div>
+              </div>
+              {formErrors.image && <p className="text-sm text-red-600">{formErrors.image}</p>}
+              {(previewImage || formData.imageFile) && (
+                <div className="mt-2 flex items-center gap-2">
+                  {previewImage && (
+                    <img src={previewImage} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-gray-200" />
+                  )}
+                  {formData.imageFile && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, imageFile: null, image: '' }));
+                        setPreviewImage(null);
+                      }}
+                      className="text-sm text-red-600 hover:text-red-800 flex items-center gap-1"
+                    >
+                      <X className="h-4 w-4" />
+                      Remove
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           <Select

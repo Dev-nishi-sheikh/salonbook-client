@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Shield, Clock, Users } from 'lucide-react';
+import { ArrowRight, Sparkles, Shield, Clock, Users, Loader2 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Card, CardContent } from '@/components/ui/Card';
@@ -10,21 +10,39 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { api } from '@/lib/api';
 import { Service } from '@/types';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, classNames } from '@/lib/utils';
 
-const CATEGORIES = [
-  { name: 'Haircut & Styling', icon: '✂️', description: 'Professional cuts and styling' },
-  { name: 'Hair Coloring', icon: '🎨', description: 'Vibrant colors and highlights' },
-  { name: 'Hair Treatment', icon: '✨', description: 'Nourishing treatments' },
-  { name: 'Facial & Skincare', icon: '🧖', description: 'Rejuvenating facials' },
-  { name: 'Makeup', icon: '💄', description: 'Professional makeup services' },
-  { name: 'Manicure & Pedicure', icon: '💅', description: 'Beautiful nails' },
-  { name: 'Spa & Massage', icon: '🧘', description: 'Relaxing spa treatments' },
-];
+const CATEGORY_ICONS: Record<string, string> = {
+  'Haircut & Styling': '✂️',
+  'Hair Coloring': '🎨',
+  'Hair Treatment': '✨',
+  'Facial & Skincare': '🧖',
+  'Makeup': '💄',
+  'Manicure & Pedicure': '💅',
+  'Spa & Massage': '🧘',
+  'Hair Removal': '🧴',
+  'Bridal': '👰',
+  'Men\'s Grooming': '🧔',
+};
+
+const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  'Haircut & Styling': 'Professional cuts and styling',
+  'Hair Coloring': 'Vibrant colors and highlights',
+  'Hair Treatment': 'Nourishing treatments',
+  'Facial & Skincare': 'Rejuvenating facials',
+  'Makeup': 'Professional makeup services',
+  'Manicure & Pedicure': 'Beautiful nails',
+  'Spa & Massage': 'Relaxing spa treatments',
+  'Hair Removal': 'Smooth and hair-free skin',
+  'Bridal': 'Complete bridal packages',
+  'Men\'s Grooming': 'Tailored grooming for men',
+};
 
 export default function HomePage() {
   const [featuredServices, setFeaturedServices] = useState<Service[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
 
   useEffect(() => {
     const fetchFeaturedServices = async () => {
@@ -40,7 +58,21 @@ export default function HomePage() {
       }
     };
 
+    const fetchCategories = async () => {
+      try {
+        const response = await api.getServiceCategories();
+        if (response.success && response.data) {
+          setCategories(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+
     fetchFeaturedServices();
+    fetchCategories();
   }, []);
 
   return (
@@ -134,21 +166,33 @@ export default function HomePage() {
               Discover our wide range of professional salon services organized by category
             </p>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-              {CATEGORIES.map(category => (
-                <Link
-                  key={category.name}
-                  href={`/browse?category=${encodeURIComponent(category.name)}`}
-                  className="group card p-6 text-center hover:shadow-lg transition-shadow"
-                >
-                  <div className="text-4xl mb-3">{category.icon}</div>
-                  <h3 className="font-semibold text-gray-900 group-hover:text-salon-600 transition-colors">
-                    {category.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-1">{category.description}</p>
-                </Link>
-              ))}
-            </div>
+            {categoriesLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                {[1, 2, 3, 4, 5, 6, 7].map(i => (
+                  <CategoryCardSkeleton key={i} />
+                ))}
+              </div>
+            ) : categories.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                {categories.map(category => (
+                  <Link
+                    key={category}
+                    href={`/browse?category=${encodeURIComponent(category)}`}
+                    className="group card p-6 text-center hover:shadow-lg transition-shadow"
+                  >
+                    <div className="text-4xl mb-3">{CATEGORY_ICONS[category] || '✨'}</div>
+                    <h3 className="font-semibold text-gray-900 group-hover:text-salon-600 transition-colors">
+                      {category}
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">{CATEGORY_DESCRIPTIONS[category] || 'Professional salon services'}</p>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No categories available at the moment.</p>
+              </div>
+            )}
           </div>
         </section>
 
@@ -238,6 +282,18 @@ function ServiceCardSkeleton() {
         <div className="h-4 bg-gray-200 rounded w-5/6" />
         <div className="h-4 bg-gray-200 rounded w-4/6" />
       </div>
+    </div>
+  );
+}
+
+function CategoryCardSkeleton() {
+  return (
+    <div className="card p-6 text-center animate-pulse">
+      <div className="text-4xl mb-3">
+        <div className="h-10 w-10 bg-gray-200 rounded-full mx-auto" />
+      </div>
+      <div className="h-5 bg-gray-200 rounded w-3/4 mx-auto mb-1" />
+      <div className="h-4 bg-gray-200 rounded w-full" />
     </div>
   );
 }

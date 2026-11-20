@@ -30,6 +30,7 @@ interface SidebarProps {
 const customerNavItems = [
   { href: '/dashboard/customer/overview', label: 'Overview', icon: LayoutDashboard },
   { href: '/dashboard/customer/appointments', label: 'My Appointments', icon: Calendar },
+  { href: '/dashboard/customer/payments', label: 'Payment History', icon: CreditCard },
   { href: '/dashboard/customer/profile', label: 'My Profile', icon: User },
 ];
 

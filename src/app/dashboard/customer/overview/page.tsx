@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, CreditCard, Loader2, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, CreditCard, Loader2, ArrowRight, DollarSign } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -153,9 +153,9 @@ export default function CustomerOverviewPage() {
                   <p className="text-sm text-gray-500">View and manage your bookings</p>
                 </div>
               </Link>
-              <Link href="/dashboard/customer/profile" className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <CreditCard className="h-6 w-6 text-green-600" />
+<Link href="/dashboard/customer/payments" className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <DollarSign className="h-6 w-6 text-purple-600" />
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">Payment History</p>
