@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CreditCard, Loader2, ChevronLeft, ChevronRight, DollarSign } from 'lucide-react';
+import { CreditCard, Loader2, ChevronLeft, ChevronRight, DollarSign, CheckCircle, XCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -220,5 +220,3 @@ function TransactionRowSkeleton() {
     </tr>
   );
 }
-
-import { CheckCircle, XCircle } from 'lucide-react';
