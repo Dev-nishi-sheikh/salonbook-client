@@ -166,7 +166,7 @@ The `api` client in `lib/api.ts` handles:
 1. Build the application: `npm run build`
 2. Set production environment variables
 3. Deploy to Vercel, Netlify, or any Node.js hosting
-4. Ensure `NEXT_PUBLIC_API_URL` points to production backend
+4. Ensure `NEXT_PUBLIC_API_URL` points to production backend (e.g., `https://assignmentnine.oxytumzone.com` — **without `/api` suffix**; the client appends `/api` and `/api/auth` internally)
 5. Configure Stripe webhook endpoints for production
 
 ## Security Considerations
