@@ -11,20 +11,19 @@ SalonBook is a salon appointment booking platform where customers can explore sa
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Forms**: React Hook Form with Zod validation
+- **Forms**: React state with client-side validation, Zod validation on the server
 - **HTTP Client**: Axios
 - **Icons**: Lucide React
 - **Notifications**: React Hot Toast
-- **Date Handling**: date-fns
-- **Payments**: Stripe.js / React Stripe.js
+- **Payments**: Stripe Checkout (hosted, redirect based)
 
 ## Features
 
 ### Public Pages
-- **Home** - Hero banner, featured services, categories, CTA sections
+- **Home** - Full-viewport hero banner, featured services, categories, CTA sections
 - **Browse Services** - Search, filter by category, sort by price, pagination
-- **Service Details** - Full service info, appointment booking modal
-- **Sign In / Sign Up** - Email/password auth, Google OAuth ready
+- **Service Details** - Full service info and appointment booking modal (protected: unauthenticated visitors are redirected to Sign In and returned after login)
+- **Sign In / Sign Up** - Email/password auth and Google OAuth
 
 ### Customer Dashboard (Protected)
 - **Overview** - Appointment stats, quick actions, recent appointments
@@ -77,15 +76,15 @@ npm start
 ```
 src/
 ├── app/                    # Next.js App Router pages
-│   ├── (auth)/            # Auth group (signin, signup)
-│   ├── (dashboard)/       # Dashboard group (customer, admin)
+│   ├── auth/              # signin, signup, callback
+│   ├── dashboard/         # dashboard layout + customer/admin pages
 │   ├── browse/            # Browse services page
 │   ├── services/[id]/     # Service details dynamic route
 │   ├── payment/           # Payment success/cancel pages
 │   ├── layout.tsx         # Root layout
 │   ├── page.tsx           # Home page
 │   ├── globals.css        # Global styles
-│   └── providers.tsx      # Context providers
+│   └── not-found.tsx      # Custom 404 page
 ├── components/
 │   ├── ui/                # Reusable UI components
 │   ├── layout/            # Layout components (Navbar, Footer)
@@ -114,7 +113,8 @@ src/
 
 ### Layout Components
 - `Navbar` - Responsive navigation with auth state
-- `Footer` - Complete footer with links, contact info, social
+- `Sidebar` - Dashboard navigation drawer (fixed, full height on desktop)
+- `Footer` - Footer with quick links, category links and contact info
 
 ### Forms
 - Login/Register forms with validation
@@ -156,10 +156,9 @@ The `api` client in `lib/api.ts` handles:
 ## Styling
 
 - Tailwind CSS for utility-first styling
-- Custom color palette (salon pink theme)
-- Responsive design (mobile-first)
-- Consistent spacing, typography, shadows
-- Dark mode ready (class-based)
+- White and light-gray surfaces with a single slate accent
+- Responsive design (mobile-first), verified from 375px to 1440px
+- Consistent spacing, typography and 2px corners
 
 ## Deployment
 
