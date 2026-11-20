@@ -87,10 +87,10 @@ export default function AdminAppointmentsPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
         </main>
         <Footer />
       </div>
@@ -99,11 +99,11 @@ export default function AdminAppointmentsPage() {
 
   if (!isAuthenticated || user?.role !== 'admin') {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-12">
           <div className="text-center">
-            <p className="text-gray-600">Access denied. Admin privileges required.</p>
+            <p className="text-warm-gray-600">Access denied. Admin privileges required.</p>
             <Button onClick={() => router.push('/')} className="mt-4">Go Home</Button>
           </div>
         </main>
@@ -126,25 +126,25 @@ export default function AdminAppointmentsPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-main">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Manage Appointments</h1>
-            <p className="text-gray-600 mt-1">View and manage all appointment requests</p>
+            <h1 className="text-3xl font-bold text-charcoal-900 font-display">Manage Appointments</h1>
+            <p className="text-warm-gray-600 mt-1">View and manage all appointment requests</p>
           </div>
 
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-1 min-w-[250px] max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-warm-gray-400" />
               <input
                 type="text"
                 value={search}
                 onChange={e => { setSearch(e.target.value); setPagination(prev => ({ ...prev, page: 1 })); }}
                 placeholder="Search by customer or service..."
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
+                className="input pl-10"
               />
             </div>
             <Select
@@ -169,20 +169,20 @@ export default function AdminAppointmentsPage() {
             </div>
           ) : appointments.length > 0 ? (
             <>
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="table-container">
+                <table className="table">
                   <thead>
-                    <tr className="text-left text-sm text-gray-500 border-b border-gray-100">
-                      <th className="pb-3 font-medium">Customer</th>
-                      <th className="pb-3 font-medium hidden md:table-cell">Service</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Date & Time</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Price</th>
-                      <th className="pb-3 font-medium">Status</th>
-                      <th className="pb-3 font-medium">Payment</th>
-                      <th className="pb-3 font-medium">Actions</th>
+                    <tr>
+                      <th>Customer</th>
+                      <th className="hidden md:table-cell">Service</th>
+                      <th className="hidden lg:table-cell">Date & Time</th>
+                      <th className="hidden lg:table-cell">Price</th>
+                      <th>Status</th>
+                      <th>Payment</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-warm-gray-100">
                     {appointments.map(appointment => (
                       <AdminAppointmentRow
                         key={appointment._id}
@@ -199,7 +199,7 @@ export default function AdminAppointmentsPage() {
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))} disabled={pagination.page === 1}>
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <span className="px-4 text-sm text-gray-600">Page {pagination.page} of {pagination.pages}</span>
+                  <span className="px-4 text-body-sm text-warm-gray-600">Page {pagination.page} of {pagination.pages}</span>
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))} disabled={pagination.page === pagination.pages}>
                     <ChevronRight className="h-4 w-4" />
                   </Button>
@@ -209,9 +209,9 @@ export default function AdminAppointmentsPage() {
           ) : (
             <Card className="text-center py-12">
               <CardContent>
-                <Calendar className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No appointments found</h3>
-                <p className="text-gray-500 mb-6">Try adjusting your search or filters</p>
+                <Calendar className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
+                <h3 className="text-heading-md font-medium text-charcoal-900 mb-2">No appointments found</h3>
+                <p className="text-warm-gray-500 mb-6">Try adjusting your search or filters</p>
               </CardContent>
             </Card>
           )}
@@ -228,13 +228,13 @@ export default function AdminAppointmentsPage() {
       >
         <div className="space-y-4">
           {selectedAppointment && (
-            <div className="p-4 bg-gray-50 rounded-lg space-y-2">
-              <p className="font-medium text-gray-900">{(selectedAppointment.serviceId as any)?.serviceName || 'Service'}</p>
-              <p className="text-sm text-gray-500">
+            <div className="p-4 bg-warm-gray-50 rounded-xl space-y-2">
+              <p className="font-medium text-charcoal-900">{(selectedAppointment.serviceId as any)?.serviceName || 'Service'}</p>
+              <p className="text-body-sm text-warm-gray-500">
                 {(selectedAppointment.customerId as any)?.name || 'Customer'} • 
                 {formatDate(selectedAppointment.appointmentDate)} at {formatTime(selectedAppointment.timeSlot)}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-body-sm text-warm-gray-500">
                 Current: <Badge variant={getStatusBadgeClass(selectedAppointment.status as AppointmentStatusType)}>{getStatusLabel(selectedAppointment.status as AppointmentStatusType)}</Badge>
               </p>
             </div>
@@ -251,7 +251,7 @@ export default function AdminAppointmentsPage() {
             onChange={e => setNewStatus(e.target.value as AppointmentStatusType)}
           />
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex justify-end gap-3 pt-4 border-t border-warm-gray-100">
             <Button variant="outline" onClick={() => { setShowModal(false); setSelectedAppointment(null); }}>
               Cancel
             </Button>
@@ -272,22 +272,22 @@ function AdminAppointmentRow({ appointment, onAction }: { appointment: Appointme
   const paymentStatus = appointment.paymentStatus as PaymentStatusType;
 
   return (
-    <tr className="hover:bg-gray-50">
+    <tr className="hover:bg-warm-gray-50">
       <td className="py-4">
         <div>
-          <p className="font-medium text-gray-900">{customer?.name || 'Unknown'}</p>
-          <p className="text-sm text-gray-500">{customer?.email || ''}</p>
+          <p className="font-medium text-charcoal-900">{customer?.name || 'Unknown'}</p>
+          <p className="text-body-sm text-warm-gray-500">{customer?.email || ''}</p>
         </div>
       </td>
       <td className="py-4 hidden md:table-cell">
-        <p className="font-medium text-gray-900">{service?.serviceName || 'Service'}</p>
-        <p className="text-sm text-gray-500">{service?.category || ''}</p>
+        <p className="font-medium text-charcoal-900">{service?.serviceName || 'Service'}</p>
+        <p className="text-body-sm text-warm-gray-500">{service?.category || ''}</p>
       </td>
-      <td className="py-4 hidden lg:table-cell text-gray-600">
+      <td className="py-4 hidden lg:table-cell text-warm-gray-600">
         <p>{formatDate(appointment.appointmentDate)}</p>
-        <p className="text-sm">{formatTime(appointment.timeSlot)}</p>
+        <p className="text-body-sm">{formatTime(appointment.timeSlot)}</p>
       </td>
-      <td className="py-4 hidden lg:table-cell font-medium text-gray-900">{formatCurrency(appointment.servicePrice)}</td>
+      <td className="py-4 hidden lg:table-cell font-medium text-charcoal-900">{formatCurrency(appointment.servicePrice)}</td>
       <td className="py-4">
         <Badge variant={getStatusBadgeClass(status)}>{getStatusLabel(status)}</Badge>
       </td>
@@ -306,13 +306,13 @@ function AdminAppointmentRow({ appointment, onAction }: { appointment: Appointme
 function AdminAppointmentRowSkeleton() {
   return (
     <tr className="animate-pulse">
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-3/4" /><div className="h-4 bg-gray-200 rounded w-1/2 mt-1" /></td>
-      <td className="py-4 hidden md:table-cell"><div className="h-5 bg-gray-200 rounded w-3/4" /><div className="h-4 bg-gray-200 rounded w-1/2 mt-1" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-gray-200 rounded w-24" /><div className="h-3 bg-gray-200 rounded w-16 mt-1" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4"><div className="h-8 bg-gray-200 rounded w-20" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-3/4" /><div className="h-4 bg-warm-gray-200 rounded w-1/2 mt-1" /></td>
+      <td className="py-4 hidden md:table-cell"><div className="h-5 bg-warm-gray-200 rounded w-3/4" /><div className="h-4 bg-warm-gray-200 rounded w-1/2 mt-1" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-24" /><div className="h-3 bg-warm-gray-200 rounded w-16 mt-1" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4"><div className="h-8 bg-warm-gray-200 rounded w-20" /></td>
     </tr>
   );
 }

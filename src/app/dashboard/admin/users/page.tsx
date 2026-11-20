@@ -109,10 +109,10 @@ export default function AdminUsersPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
         </main>
         <Footer />
       </div>
@@ -121,11 +121,11 @@ export default function AdminUsersPage() {
 
   if (!isAuthenticated || user?.role !== 'admin') {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-12">
           <div className="text-center">
-            <p className="text-gray-600">Access denied. Admin privileges required.</p>
+            <p className="text-warm-gray-600">Access denied. Admin privileges required.</p>
             <Button onClick={() => router.push('/')} className="mt-4">Go Home</Button>
           </div>
         </main>
@@ -135,25 +135,25 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-main">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Manage Users</h1>
-            <p className="text-gray-600 mt-1">View and manage registered customers</p>
+            <h1 className="text-3xl font-bold text-charcoal-900 font-display">Manage Users</h1>
+            <p className="text-warm-gray-600 mt-1">View and manage registered customers</p>
           </div>
 
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-1 min-w-[250px] max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-warm-gray-400" />
               <input
                 type="text"
                 value={search}
                 onChange={e => { setSearch(e.target.value); setPagination(prev => ({ ...prev, page: 1 })); }}
                 placeholder="Search by name or email..."
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
+                className="input pl-10"
               />
             </div>
             <Select
@@ -186,19 +186,19 @@ export default function AdminUsersPage() {
             </div>
           ) : users.length > 0 ? (
             <>
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="table-container">
+                <table className="table">
                   <thead>
-                    <tr className="text-left text-sm text-gray-500 border-b border-gray-100">
-                      <th className="pb-3 font-medium">User</th>
-                      <th className="pb-3 font-medium hidden md:table-cell">Email</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Role</th>
-                      <th className="pb-3 font-medium">Status</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Joined</th>
-                      <th className="pb-3 font-medium">Actions</th>
+                    <tr>
+                      <th>User</th>
+                      <th className="hidden md:table-cell">Email</th>
+                      <th className="hidden lg:table-cell">Role</th>
+                      <th>Status</th>
+                      <th className="hidden lg:table-cell">Joined</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-warm-gray-100">
                     {users.map(userItem => (
                       <UserRow
                         key={userItem._id}
@@ -217,7 +217,7 @@ export default function AdminUsersPage() {
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))} disabled={pagination.page === 1}>
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <span className="px-4 text-sm text-gray-600">Page {pagination.page} of {pagination.pages}</span>
+                  <span className="px-4 text-body-sm text-warm-gray-600">Page {pagination.page} of {pagination.pages}</span>
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))} disabled={pagination.page === pagination.pages}>
                     <ChevronRight className="h-4 w-4" />
                   </Button>
@@ -227,9 +227,9 @@ export default function AdminUsersPage() {
           ) : (
             <Card className="text-center py-12">
               <CardContent>
-                <User className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No users found</h3>
-                <p className="text-gray-500 mb-6">Try adjusting your search or filters</p>
+                <User className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
+                <h3 className="text-heading-md font-medium text-charcoal-900 mb-2">No users found</h3>
+                <p className="text-warm-gray-500 mb-6">Try adjusting your search or filters</p>
               </CardContent>
             </Card>
           )}
@@ -248,12 +248,12 @@ export default function AdminUsersPage() {
       >
         <div className="space-y-4">
           {selectedUser && (
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="font-medium text-gray-900">{selectedUser.name}</p>
-              <p className="text-sm text-gray-500">{selectedUser.email}</p>
+            <div className="p-4 bg-warm-gray-50 rounded-xl">
+              <p className="font-medium text-charcoal-900">{selectedUser.name}</p>
+              <p className="text-body-sm text-warm-gray-500">{selectedUser.email}</p>
             </div>
           )}
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex justify-end gap-3 pt-4 border-t border-warm-gray-100">
             <Button variant="outline" onClick={() => { setShowModal(false); setSelectedUser(null); }}>
               Cancel
             </Button>
@@ -275,34 +275,34 @@ function UserRow({ user, onBlock, onRole, currentUserId }: { user: UserType; onB
   const isCurrentUser = user._id === currentUserId;
 
   return (
-    <tr className="hover:bg-gray-50">
+    <tr className="hover:bg-warm-gray-50">
       <td className="py-4">
         <div className="flex items-center gap-3">
           {user.image ? (
             <img src={user.image} alt={user.name} className="w-10 h-10 rounded-full object-cover" />
           ) : (
-            <div className="w-10 h-10 rounded-full bg-salon-100 flex items-center justify-center">
-              <span className="text-sm font-medium text-salon-600">{user.name?.charAt(0).toUpperCase()}</span>
+            <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center">
+              <span className="text-body-sm font-medium text-rose-600">{user.name?.charAt(0).toUpperCase()}</span>
             </div>
           )}
           <div>
-            <p className="font-medium text-gray-900">{user.name}</p>
-            {isCurrentUser && <span className="text-xs text-salon-600">(You)</span>}
+            <p className="font-medium text-charcoal-900">{user.name}</p>
+            {isCurrentUser && <span className="text-xs text-rose-600">(You)</span>}
           </div>
         </div>
       </td>
-      <td className="py-4 hidden md:table-cell text-gray-600">{user.email}</td>
+      <td className="py-4 hidden md:table-cell text-warm-gray-600">{user.email}</td>
       <td className="py-4 hidden lg:table-cell">
-        <Badge variant={user.role === 'admin' ? 'active' : 'pending'}>
+        <Badge variant={user.role === 'admin' ? 'admin' : 'customer'}>
           {user.role}
         </Badge>
       </td>
       <td className="py-4">
-        <Badge variant={user.isBlocked ? 'cancelled' : 'confirmed'}>
+        <Badge variant={user.isBlocked ? 'cancelled' : 'active'}>
           {user.isBlocked ? 'Blocked' : 'Active'}
         </Badge>
       </td>
-      <td className="py-4 hidden lg:table-cell text-gray-500 text-sm">
+      <td className="py-4 hidden lg:table-cell text-warm-gray-500 text-body-sm">
         {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-'}
       </td>
       <td className="py-4">
@@ -326,12 +326,12 @@ function UserRow({ user, onBlock, onRole, currentUserId }: { user: UserType; onB
 function UserRowSkeleton() {
   return (
     <tr className="animate-pulse">
-      <td className="py-4"><div className="flex items-center gap-3"><div className="w-10 h-10 bg-gray-200 rounded-full" /><div className="space-y-2"><div className="h-5 bg-gray-200 rounded w-3/4" /><div className="h-4 bg-gray-200 rounded w-1/2" /></div></div></td>
-      <td className="py-4 hidden md:table-cell"><div className="h-4 bg-gray-200 rounded w-32" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-5 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-gray-200 rounded w-24" /></td>
-      <td className="py-4"><div className="h-8 bg-gray-200 rounded w-24" /></td>
+      <td className="py-4"><div className="flex items-center gap-3"><div className="w-10 h-10 bg-warm-gray-200 rounded-full" /><div className="space-y-2"><div className="h-5 bg-warm-gray-200 rounded w-3/4" /><div className="h-4 bg-warm-gray-200 rounded w-1/2" /></div></div></td>
+      <td className="py-4 hidden md:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-32" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-5 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-24" /></td>
+      <td className="py-4"><div className="h-8 bg-warm-gray-200 rounded w-24" /></td>
     </tr>
   );
 }

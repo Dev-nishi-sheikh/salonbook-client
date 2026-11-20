@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
+import { Textarea } from '@/components/ui/Textarea';
 import { Modal } from '@/components/ui/Modal';
 import { api } from '@/lib/api';
 import { Service, ServiceStatus, type ServiceStatus as ServiceStatusType } from '@/types';
@@ -214,10 +215,10 @@ export default function AdminServicesPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
         </main>
         <Footer />
       </div>
@@ -226,11 +227,11 @@ export default function AdminServicesPage() {
 
   if (!isAuthenticated || user?.role !== 'admin') {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-12">
           <div className="text-center">
-            <p className="text-gray-600">Access denied. Admin privileges required.</p>
+            <p className="text-warm-gray-600">Access denied. Admin privileges required.</p>
             <Button onClick={() => router.push('/')} className="mt-4">Go Home</Button>
           </div>
         </main>
@@ -240,15 +241,15 @@ export default function AdminServicesPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-main">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Manage Services</h1>
-              <p className="text-gray-600 mt-1">Add, edit, and manage salon services</p>
+              <h1 className="text-3xl font-bold text-charcoal-900 font-display">Manage Services</h1>
+              <p className="text-warm-gray-600 mt-1">Add, edit, and manage salon services</p>
             </div>
             <Button onClick={handleOpenCreate}>
               <Plus className="h-4 w-4 mr-2" />
@@ -258,13 +259,13 @@ export default function AdminServicesPage() {
 
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-1 min-w-[250px] max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-warm-gray-400" />
               <input
                 type="text"
                 value={search}
                 onChange={e => { setSearch(e.target.value); setPagination(prev => ({ ...prev, page: 1 })); }}
                 placeholder="Search services..."
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
+                className="input pl-10"
               />
             </div>
             <Select
@@ -288,19 +289,19 @@ export default function AdminServicesPage() {
             </div>
           ) : services.length > 0 ? (
             <>
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="table-container">
+                <table className="table">
                   <thead>
-                    <tr className="text-left text-sm text-gray-500 border-b border-gray-100">
-                      <th className="pb-3 font-medium">Service</th>
-                      <th className="pb-3 font-medium hidden md:table-cell">Category</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Price</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Duration</th>
-                      <th className="pb-3 font-medium">Status</th>
-                      <th className="pb-3 font-medium">Actions</th>
+                    <tr>
+                      <th>Service</th>
+                      <th className="hidden md:table-cell">Category</th>
+                      <th className="hidden lg:table-cell">Price</th>
+                      <th className="hidden lg:table-cell">Duration</th>
+                      <th>Status</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-warm-gray-100">
                     {services.map(service => (
                       <ServiceRow
                         key={service._id}
@@ -319,7 +320,7 @@ export default function AdminServicesPage() {
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))} disabled={pagination.page === 1}>
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <span className="px-4 text-sm text-gray-600">Page {pagination.page} of {pagination.pages}</span>
+                  <span className="px-4 text-body-sm text-warm-gray-600">Page {pagination.page} of {pagination.pages}</span>
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))} disabled={pagination.page === pagination.pages}>
                     <ChevronRight className="h-4 w-4" />
                   </Button>
@@ -329,9 +330,9 @@ export default function AdminServicesPage() {
           ) : (
             <Card className="text-center py-12">
               <CardContent>
-                <Search className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No services found</h3>
-                <p className="text-gray-500 mb-6">Try adjusting your search or add a new service</p>
+                <Search className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
+                <h3 className="text-heading-md font-medium text-charcoal-900 mb-2">No services found</h3>
+                <p className="text-warm-gray-500 mb-6">Try adjusting your search or add a new service</p>
                 <Button onClick={handleOpenCreate}>
                   <Plus className="h-4 w-4 mr-2" />
                   Add First Service
@@ -350,7 +351,7 @@ export default function AdminServicesPage() {
         title={editingService ? 'Edit Service' : 'Add New Service'}
         size="xl"
       >
-        <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="space-y-5 max-h-[70vh] overflow-y-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Service Name"
@@ -399,24 +400,21 @@ export default function AdminServicesPage() {
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Description</label>
-            <textarea
-              value={formData.description}
-              onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              rows={4}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
-              placeholder="Describe the service..."
-              required
-            />
-            {formErrors.description && <p className="text-sm text-red-600">{formErrors.description}</p>}
-          </div>
+          <Textarea
+            label="Description"
+            value={formData.description}
+            onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
+            error={formErrors.description}
+            placeholder="Describe the service..."
+            rows={4}
+            required
+          />
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Image</label>
+            <label className="label">Image</label>
             <div className="space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+                <label className="label">Upload Image</label>
                 <div className="relative">
                   <input
                     type="file"
@@ -428,28 +426,28 @@ export default function AdminServicesPage() {
                         setPreviewImage(URL.createObjectURL(file));
                       }
                     }}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-salon-50 file:text-salon-700 hover:file:bg-salon-100"
+                    className="w-full px-4 py-3 rounded-xl border border-warm-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Or Enter Image URL</label>
+                <label className="label">Or Enter Image URL</label>
                 <div className="relative">
                   <input
                     type="url"
                     value={formData.image}
                     onChange={e => { setFormData(prev => ({ ...prev, image: e.target.value, imageFile: null })); setPreviewImage(e.target.value || null); }}
                     placeholder="https://example.com/image.jpg"
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-salon-500 focus:border-transparent"
+                    className="input pl-10"
                   />
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">https://</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-gray-400">https://</span>
                 </div>
               </div>
-              {formErrors.image && <p className="text-sm text-red-600">{formErrors.image}</p>}
+              {formErrors.image && <p className="error-text">{formErrors.image}</p>}
               {(previewImage || formData.imageFile) && (
                 <div className="mt-2 flex items-center gap-2">
                   {previewImage && (
-                    <img src={previewImage} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-gray-200" />
+                    <img src={previewImage} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-warm-gray-200" />
                   )}
                   {formData.imageFile && (
                     <button
@@ -458,7 +456,7 @@ export default function AdminServicesPage() {
                         setFormData(prev => ({ ...prev, imageFile: null, image: '' }));
                         setPreviewImage(null);
                       }}
-                      className="text-sm text-red-600 hover:text-red-800 flex items-center gap-1"
+                      className="text-body-sm text-red-600 hover:text-red-800 flex items-center gap-1"
                     >
                       <X className="h-4 w-4" />
                       Remove
@@ -479,7 +477,7 @@ export default function AdminServicesPage() {
             onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as ServiceStatusType }))}
           />
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex justify-end gap-3 pt-4 border-t border-warm-gray-100">
             <Button type="button" variant="outline" onClick={() => { setShowModal(false); resetForm(); }}>
               Cancel
             </Button>
@@ -495,19 +493,19 @@ export default function AdminServicesPage() {
 
 function ServiceRow({ service, onEdit, onDelete, onToggle }: { service: Service; onEdit: (s: Service) => void; onDelete: (s: Service) => void; onToggle: (s: Service) => void }) {
   return (
-    <tr className="hover:bg-gray-50">
+    <tr className="hover:bg-warm-gray-50">
       <td className="py-4">
         <div className="flex items-center gap-3">
           <img src={service.image} alt={service.serviceName} className="w-12 h-12 object-cover rounded-lg" />
           <div>
-            <p className="font-medium text-gray-900">{service.serviceName}</p>
-            <p className="text-sm text-gray-500 truncate max-w-xs">{service.description}</p>
+            <p className="font-medium text-charcoal-900">{service.serviceName}</p>
+            <p className="text-body-sm text-warm-gray-500 truncate max-w-xs">{service.description}</p>
           </div>
         </div>
       </td>
-      <td className="py-4 hidden md:table-cell text-gray-600">{service.category}</td>
-      <td className="py-4 hidden lg:table-cell font-medium text-gray-900">{formatCurrency(service.price)}</td>
-      <td className="py-4 hidden lg:table-cell text-gray-600">{service.duration} min</td>
+      <td className="py-4 hidden md:table-cell text-warm-gray-600">{service.category}</td>
+      <td className="py-4 hidden lg:table-cell font-medium text-charcoal-900">{formatCurrency(service.price)}</td>
+      <td className="py-4 hidden lg:table-cell text-warm-gray-600">{service.duration} min</td>
       <td className="py-4">
         <Badge variant={getStatusBadgeClass(service.status)}>{getStatusLabel(service.status)}</Badge>
       </td>
@@ -515,7 +513,7 @@ function ServiceRow({ service, onEdit, onDelete, onToggle }: { service: Service;
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={() => onEdit(service)}><Edit className="h-4 w-4" /></Button>
           <Button variant="ghost" size="sm" onClick={() => onToggle(service)}>
-            {service.status === 'active' ? <Eye className="h-4 w-4 text-gray-600" /> : <Eye className="h-4 w-4 text-green-600" />}
+            {service.status === 'active' ? <Eye className="h-4 w-4 text-warm-gray-600" /> : <Eye className="h-4 w-4 text-green-600" />}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => onDelete(service)} className="text-red-600 hover:bg-red-50">
             <Trash2 className="h-4 w-4" />
@@ -531,18 +529,18 @@ function ServiceRowSkeleton() {
     <tr className="animate-pulse">
       <td className="py-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-gray-200 rounded-lg" />
+          <div className="w-12 h-12 bg-warm-gray-200 rounded-lg" />
           <div className="space-y-2">
-            <div className="h-5 bg-gray-200 rounded w-3/4" />
-            <div className="h-4 bg-gray-200 rounded w-1/2" />
+            <div className="h-5 bg-warm-gray-200 rounded w-3/4" />
+            <div className="h-4 bg-warm-gray-200 rounded w-1/2" />
           </div>
         </div>
       </td>
-      <td className="py-4 hidden md:table-cell"><div className="h-4 bg-gray-200 rounded w-24" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-gray-200 rounded w-16" /></td>
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4"><div className="h-8 bg-gray-200 rounded w-24" /></td>
+      <td className="py-4 hidden md:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-24" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-16" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4"><div className="h-8 bg-warm-gray-200 rounded w-24" /></td>
     </tr>
   );
 }

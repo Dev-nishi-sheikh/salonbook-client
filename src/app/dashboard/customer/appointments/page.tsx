@@ -97,8 +97,8 @@ export default function CustomerAppointmentsPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">My Appointments</h1>
-          <p className="text-gray-600 mt-1">View and manage your salon appointments</p>
+          <h1 className="text-3xl font-bold text-charcoal-900 font-display">My Appointments</h1>
+          <p className="text-warm-gray-600 mt-1">View and manage your salon appointments</p>
         </div>
         <Link href="/browse">
           <Button>
@@ -155,7 +155,7 @@ export default function CustomerAppointmentsPage() {
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <span className="px-4 text-sm text-gray-600">
+              <span className="px-4 text-body-sm text-warm-gray-600">
                 Page {pagination.page} of {pagination.pages}
               </span>
               <Button
@@ -172,11 +172,11 @@ export default function CustomerAppointmentsPage() {
       ) : (
         <Card className="text-center py-12">
           <CardContent>
-            <Calendar className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <Calendar className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
+            <h3 className="text-heading-md font-medium text-charcoal-900 mb-2">
               {statusFilter ? `No ${statusFilter} appointments` : 'No appointments yet'}
             </h3>
-            <p className="text-gray-500 mb-6">
+            <p className="text-warm-gray-500 mb-6">
               {statusFilter 
                 ? 'Try changing the filter or book a new appointment'
                 : 'Book your first salon service today'}
@@ -196,9 +196,9 @@ export default function CustomerAppointmentsPage() {
       >
         <div className="space-y-4">
           {selectedAppointment && (
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="font-medium text-gray-900">{(selectedAppointment.serviceId as any)?.serviceName}</p>
-              <p className="text-sm text-gray-500">
+            <div className="p-4 bg-warm-gray-50 rounded-xl">
+              <p className="font-medium text-charcoal-900">{(selectedAppointment.serviceId as any)?.serviceName}</p>
+              <p className="text-body-sm text-warm-gray-500">
                 {formatDate(selectedAppointment.appointmentDate)} at {formatTime(selectedAppointment.timeSlot)}
               </p>
             </div>
@@ -224,7 +224,7 @@ function AppointmentCard({ appointment, onCancel, onPay }: { appointment: Appoin
 
   return (
     <Link href={`/dashboard/customer/appointments/${appointment._id}`} className="block">
-      <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <Card className="overflow-hidden card-hover">
         <CardContent className="p-0">
           <div className="flex flex-col md:flex-row">
             {service?.image && (
@@ -237,22 +237,22 @@ function AppointmentCard({ appointment, onCancel, onPay }: { appointment: Appoin
             <div className="flex-1 p-4 md:p-6">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">{service?.serviceName || 'Service'}</h4>
-                  <p className="text-sm text-gray-500">{service?.category}</p>
+                  <h4 className="font-semibold text-charcoal-900 mb-1">{service?.serviceName || 'Service'}</h4>
+                  <p className="text-body-sm text-warm-gray-500">{service?.category}</p>
                 </div>
                 <Badge variant={getStatusBadgeClass(status)}>{getStatusLabel(status)}</Badge>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
-                <div className="flex items-center gap-2 text-gray-500">
+                <div className="flex items-center gap-2 text-warm-gray-500">
                   <Calendar className="h-4 w-4" />
                   <span>{formatDate(appointment.appointmentDate)}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-500">
+                <div className="flex items-center gap-2 text-warm-gray-500">
                   <Clock className="h-4 w-4" />
                   <span>{formatTime(appointment.timeSlot)}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-500">
+                <div className="flex items-center gap-2 text-warm-gray-500">
                   <CreditCard className="h-4 w-4" />
                   <span>{formatCurrency(appointment.servicePrice)}</span>
                 </div>
@@ -262,11 +262,11 @@ function AppointmentCard({ appointment, onCancel, onPay }: { appointment: Appoin
               </div>
 
               {appointment.message && (
-                <p className="text-sm text-gray-600 mb-4 italic">"{appointment.message}"</p>
+                <p className="text-body-sm text-warm-gray-600 mb-4 italic">"{appointment.message}"</p>
               )}
 
               <div className="flex flex-wrap gap-2">
-                <Button variant="ghost" size="sm" className="text-salon-600 hover:text-salon-700">
+                <Button variant="ghost" size="sm" className="text-rose-600 hover:text-rose-700">
                   <Eye className="h-4 w-4 mr-1" />
                   View Details
                 </Button>
@@ -308,16 +308,16 @@ function AppointmentCardSkeleton() {
     <Card className="overflow-hidden animate-pulse">
       <CardContent className="p-0">
         <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-32 h-32 md:h-auto bg-gray-200" />
+          <div className="w-full md:w-32 h-32 md:h-auto bg-warm-gray-200" />
           <div className="flex-1 p-4 md:p-6 space-y-4">
-            <div className="h-5 bg-gray-200 rounded w-3/4" />
+            <div className="h-5 bg-warm-gray-200 rounded w-3/4" />
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="h-5 bg-gray-200 rounded" />
-              <div className="h-5 bg-gray-200 rounded" />
-              <div className="h-5 bg-gray-200 rounded" />
-              <div className="h-5 bg-gray-200 rounded" />
+              <div className="h-5 bg-warm-gray-200 rounded" />
+              <div className="h-5 bg-warm-gray-200 rounded" />
+              <div className="h-5 bg-warm-gray-200 rounded" />
+              <div className="h-5 bg-warm-gray-200 rounded" />
             </div>
-            <div className="h-8 bg-gray-200 rounded w-full" />
+            <div className="h-8 bg-warm-gray-200 rounded w-full" />
           </div>
         </div>
       </CardContent>

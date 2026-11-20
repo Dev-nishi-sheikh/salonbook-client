@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { api } from '@/lib/api';
 import toast from 'react-hot-toast';
+import { Badge } from '@/components/ui/Badge';
 
 export default function CustomerProfilePage() {
   const router = useRouter();
@@ -62,11 +63,11 @@ export default function CustomerProfilePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Profile Settings</h1>
-        <p className="text-gray-600 mt-1">Manage your personal information</p>
+        <h1 className="text-3xl font-bold text-charcoal-900 font-display">Profile Settings</h1>
+        <p className="text-warm-gray-600 mt-1">Manage your personal information</p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
           <Card>
             <CardContent className="p-6 text-center">
@@ -75,14 +76,14 @@ export default function CustomerProfilePage() {
                   <img
                     src={previewImage}
                     alt={user?.name || 'Profile'}
-                    className="w-24 h-24 rounded-full object-cover border-4 border-salon-100"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-rose-100"
                   />
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-salon-100 flex items-center justify-center mx-auto border-4 border-salon-100">
-                    <User className="h-12 w-12 text-salon-600" />
+                  <div className="w-24 h-24 rounded-full bg-rose-50 flex items-center justify-center mx-auto border-4 border-rose-100">
+                    <User className="h-12 w-12 text-rose-600" />
                   </div>
                 )}
-                <label className="absolute bottom-0 right-0 bg-salon-600 text-white p-2 rounded-full cursor-pointer hover:bg-salon-700 transition-colors">
+                <label className="absolute bottom-0 right-0 bg-rose-600 text-white p-2 rounded-full cursor-pointer hover:bg-rose-700 transition-colors">
                   <Camera className="h-4 w-4" />
                   <input
                     type="url"
@@ -93,13 +94,11 @@ export default function CustomerProfilePage() {
                   />
                 </label>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">{user?.name}</h3>
-              <p className="text-gray-500 mt-1">{user?.email}</p>
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-3
-                {user?.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}
-              ">
+              <h3 className="text-lg font-semibold text-charcoal-900">{user?.name}</h3>
+              <p className="text-warm-gray-500 mt-1">{user?.email}</p>
+              <Badge variant={user?.role === 'admin' ? 'admin' : 'customer'} className="mt-3">
                 {user?.role}
-              </span>
+              </Badge>
             </CardContent>
           </Card>
 
@@ -109,15 +108,15 @@ export default function CustomerProfilePage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Member since</span>
+                <span className="text-warm-gray-500">Member since</span>
                 <span className="font-medium">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-'}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Email verified</span>
+                <span className="text-warm-gray-500">Email verified</span>
                 <span className="font-medium">{user?.emailVerified ? 'Yes' : 'No'}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Status</span>
+                <span className="text-warm-gray-500">Status</span>
                 <span className="font-medium text-green-600">Active</span>
               </div>
             </CardContent>
@@ -140,7 +139,7 @@ export default function CustomerProfilePage() {
                 />
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Profile Image URL</label>
+                  <label className="label">Profile Image URL</label>
                   <div className="relative">
                     <Input
                       value={formData.image}
@@ -150,11 +149,11 @@ export default function CustomerProfilePage() {
                     />
                     {formData.image && (
                       <div className="mt-2">
-                        <img src={formData.image} alt="Preview" className="w-20 h-20 rounded-lg object-cover border border-gray-200" />
+                        <img src={formData.image} alt="Preview" className="w-20 h-20 rounded-lg object-cover border border-warm-gray-200" />
                       </div>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500">Enter a direct image URL (ImgBB, Imgur, etc.)</p>
+                  <p className="helper-text">Enter a direct image URL (ImgBB, Imgur, etc.)</p>
                 </div>
 
                 <Input
@@ -165,7 +164,7 @@ export default function CustomerProfilePage() {
                   placeholder="+1 (555) 123-4567"
                 />
 
-                <div className="flex justify-end pt-4 border-t border-gray-100">
+                <div className="flex justify-end pt-4 border-t border-warm-gray-100">
                   <Button type="submit" isLoading={isLoading}>
                     <Save className="h-4 w-4 mr-2" />
                     Save Changes
@@ -180,7 +179,7 @@ export default function CustomerProfilePage() {
               <CardTitle className="text-red-600">Danger Zone</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 mb-4">Once you delete your account, there is no going back. Please be certain.</p>
+              <p className="text-warm-gray-600 mb-4">Once you delete your account, there is no going back. Please be certain.</p>
               <Button variant="danger" onClick={() => { if (confirm('Are you sure you want to delete your account? This cannot be undone.')) { toast.error('Account deletion not implemented yet'); } }}>
                 Delete Account
               </Button>

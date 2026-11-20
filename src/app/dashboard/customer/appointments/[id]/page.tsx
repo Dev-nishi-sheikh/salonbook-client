@@ -93,10 +93,10 @@ export default function AppointmentDetailPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
         </main>
         <Footer />
       </div>
@@ -105,13 +105,13 @@ export default function AppointmentDetailPage() {
 
   if (error || !appointment) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-12 px-4">
           <div className="text-center max-w-md">
-            <AlertCircle className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Appointment Not Found</h1>
-            <p className="text-gray-600 mb-6">{error || 'The appointment you are looking for does not exist.'}</p>
+            <AlertCircle className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-charcoal-900 mb-2">Appointment Not Found</h1>
+            <p className="text-warm-gray-600 mb-6">{error || 'The appointment you are looking for does not exist.'}</p>
             <Link href="/dashboard/customer/appointments">
               <Button>Back to Appointments</Button>
             </Link>
@@ -124,11 +124,11 @@ export default function AppointmentDetailPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-12">
           <div className="text-center">
-            <p className="text-gray-600">Please sign in to view appointment details</p>
+            <p className="text-warm-gray-600">Please sign in to view appointment details</p>
             <Button onClick={() => router.push('/auth/signin')} className="mt-4">Sign In</Button>
           </div>
         </main>
@@ -138,14 +138,14 @@ export default function AppointmentDetailPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1 py-8">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-main">
           <Link
             href="/dashboard/customer/appointments"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-salon-600 mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-warm-gray-600 hover:text-rose-600 mb-6 transition-colors duration-200"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Appointments
@@ -170,57 +170,57 @@ export default function AppointmentDetailPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Service Information</h4>
+                    <h4 className="font-medium text-charcoal-900 mb-2">Service Information</h4>
                     <dl className="space-y-3">
                       <div className="flex justify-between">
-                        <dt className="text-gray-500">Category</dt>
-                        <dd className="font-medium text-gray-900">{service?.category || 'N/A'}</dd>
+                        <dt className="text-warm-gray-500">Category</dt>
+                        <dd className="font-medium text-charcoal-900">{service?.category || 'N/A'}</dd>
                       </div>
                       <div className="flex justify-between">
-                        <dt className="text-gray-500">Price</dt>
-                        <dd className="font-medium text-gray-900">{formatCurrency(appointment.servicePrice)}</dd>
+                        <dt className="text-warm-gray-500">Price</dt>
+                        <dd className="font-medium text-charcoal-900">{formatCurrency(appointment.servicePrice)}</dd>
                       </div>
                       <div className="flex justify-between">
-                        <dt className="text-gray-500">Duration</dt>
-                        <dd className="font-medium text-gray-900">{service?.duration || 'N/A'} min</dd>
+                        <dt className="text-warm-gray-500">Duration</dt>
+                        <dd className="font-medium text-charcoal-900">{service?.duration || 'N/A'} min</dd>
                       </div>
                     </dl>
                   </div>
 
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Appointment Details</h4>
+                    <h4 className="font-medium text-charcoal-900 mb-2">Appointment Details</h4>
                     <dl className="space-y-3">
                       <div className="flex justify-between">
-                        <dt className="text-gray-500">Date</dt>
-                        <dd className="font-medium text-gray-900">{formatDate(appointment.appointmentDate)}</dd>
+                        <dt className="text-warm-gray-500">Date</dt>
+                        <dd className="font-medium text-charcoal-900">{formatDate(appointment.appointmentDate)}</dd>
                       </div>
                       <div className="flex justify-between">
-                        <dt className="text-gray-500">Time</dt>
-                        <dd className="font-medium text-gray-900">{formatTime(appointment.timeSlot)}</dd>
+                        <dt className="text-warm-gray-500">Time</dt>
+                        <dd className="font-medium text-charcoal-900">{formatTime(appointment.timeSlot)}</dd>
                       </div>
                       <div className="flex justify-between">
-                        <dt className="text-gray-500">Payment Status</dt>
-                        <dd className="font-medium text-gray-900">
+                        <dt className="text-warm-gray-500">Payment Status</dt>
+                        <dd className="font-medium text-charcoal-900">
                           <Badge variant={getStatusBadgeClass(paymentStatus)}>{getStatusLabel(paymentStatus)}</Badge>
                         </dd>
                       </div>
                       <div className="flex justify-between">
-                        <dt className="text-gray-500">Requested On</dt>
-                        <dd className="font-medium text-gray-900">{formatDate(appointment.createdAt)}</dd>
+                        <dt className="text-warm-gray-500">Requested On</dt>
+                        <dd className="font-medium text-charcoal-900">{formatDate(appointment.createdAt)}</dd>
                       </div>
                     </dl>
                   </div>
                 </div>
 
                 {appointment.message && (
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="font-medium text-gray-900 mb-1">Your Message</h4>
-                    <p className="text-gray-600 italic">"{appointment.message}"</p>
+                  <div className="p-4 bg-warm-gray-50 rounded-xl">
+                    <h4 className="font-medium text-charcoal-900 mb-1">Your Message</h4>
+                    <p className="text-warm-gray-600 italic">"{appointment.message}"</p>
                   </div>
                 )}
 
-                <div className="pt-4 border-t border-gray-100">
-                  <h4 className="font-medium text-gray-900 mb-4">Actions</h4>
+                <div className="pt-4 border-t border-warm-gray-100">
+                  <h4 className="font-medium text-charcoal-900 mb-4">Actions</h4>
                   <div className="flex flex-wrap gap-3">
                     {canCancelAppointment(appointment) && (
                       <Button variant="outline" onClick={() => setShowCancelModal(true)}>
@@ -263,9 +263,9 @@ export default function AppointmentDetailPage() {
         description="Are you sure you want to cancel this appointment? This action cannot be undone."
       >
         <div className="space-y-4">
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <p className="font-medium text-gray-900">{service?.serviceName || 'Service'}</p>
-            <p className="text-sm text-gray-500">
+          <div className="p-4 bg-warm-gray-50 rounded-xl">
+            <p className="font-medium text-charcoal-900">{service?.serviceName || 'Service'}</p>
+            <p className="text-body-sm text-warm-gray-500">
               {formatDate(appointment.appointmentDate)} at {formatTime(appointment.timeSlot)}
             </p>
           </div>

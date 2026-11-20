@@ -9,6 +9,8 @@ import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { Input } from '@/components/ui/Input';
+import { Select } from '@/components/ui/Select';
 import { api } from '@/lib/api';
 import { Transaction, type TransactionStatus as TransactionStatusType } from '@/types';
 import { formatCurrency, formatDate, formatTime, getStatusBadgeClass, getStatusLabel, classNames } from '@/lib/utils';
@@ -60,10 +62,10 @@ export default function CustomerPaymentsPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-salon-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-rose-600" />
         </main>
         <Footer />
       </div>
@@ -72,11 +74,11 @@ export default function CustomerPaymentsPage() {
 
   if (!isAuthenticated || user?.role !== 'customer') {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-12">
           <div className="text-center">
-            <p className="text-gray-600">Access denied. Customer privileges required.</p>
+            <p className="text-warm-gray-600">Access denied. Customer privileges required.</p>
             <Button onClick={() => router.push('/')} className="mt-4">Go Home</Button>
           </div>
         </main>
@@ -86,21 +88,21 @@ export default function CustomerPaymentsPage() {
   }
 
   const statCards = [
-    { title: 'Total Transactions', value: stats.total, icon: CreditCard, color: 'bg-blue-100 text-blue-600' },
-    { title: 'Successful', value: stats.paid, icon: CheckCircle, color: 'bg-green-100 text-green-600' },
-    { title: 'Failed', value: stats.failed, icon: XCircle, color: 'bg-red-100 text-red-600' },
-    { title: 'Total Paid', value: formatCurrency(stats.totalAmount), icon: DollarSign, color: 'bg-purple-100 text-purple-600' },
+    { title: 'Total Transactions', value: stats.total, icon: CreditCard, color: 'bg-blue-50 text-blue-600' },
+    { title: 'Successful', value: stats.paid, icon: CheckCircle, color: 'bg-green-50 text-green-600' },
+    { title: 'Failed', value: stats.failed, icon: XCircle, color: 'bg-red-50 text-red-600' },
+    { title: 'Total Paid', value: formatCurrency(stats.totalAmount), icon: DollarSign, color: 'bg-purple-50 text-purple-600' },
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Navbar />
       
       <main className="flex-1 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-main">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Payment History</h1>
-            <p className="text-gray-600 mt-1">View your payment transactions</p>
+            <h1 className="text-3xl font-bold text-charcoal-900 font-display">Payment History</h1>
+            <p className="text-warm-gray-600 mt-1">View your payment transactions</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -109,10 +111,10 @@ export default function CustomerPaymentsPage() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">{stat.title}</p>
-                      <p className="text-3xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                      <p className="text-body-sm text-warm-gray-500">{stat.title}</p>
+                      <p className="text-heading-xl font-bold text-charcoal-900 mt-1">{stat.value}</p>
                     </div>
-                    <div className={classNames('w-12 h-12 rounded-xl flex items-center justify-center', stat.color)}>
+                    <div className={classNames('w-12 h-12 rounded-2xl flex items-center justify-center', stat.color)}>
                       <stat.icon className="h-6 w-6" />
                     </div>
                   </div>
@@ -129,20 +131,20 @@ export default function CustomerPaymentsPage() {
             </div>
           ) : transactions.length > 0 ? (
             <>
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="table-container">
+                <table className="table">
                   <thead>
-                    <tr className="text-left text-sm text-gray-500 border-b border-gray-100">
-                      <th className="pb-3 font-medium">Service</th>
-                      <th className="pb-3 font-medium hidden md:table-cell">Category</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Appointment</th>
-                      <th className="pb-3 font-medium">Amount</th>
-                      <th className="pb-3 font-medium">Status</th>
-                      <th className="pb-3 font-medium hidden lg:table-cell">Reference</th>
-                      <th className="pb-3 font-medium">Date</th>
+                    <tr>
+                      <th>Service</th>
+                      <th className="hidden md:table-cell">Category</th>
+                      <th className="hidden lg:table-cell">Appointment</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th className="hidden lg:table-cell">Reference</th>
+                      <th>Date</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-warm-gray-100">
                     {transactions.map(transaction => (
                       <TransactionRow key={transaction._id} transaction={transaction} />
                     ))}
@@ -155,7 +157,7 @@ export default function CustomerPaymentsPage() {
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))} disabled={pagination.page === 1}>
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <span className="px-4 text-sm text-gray-600">Page {pagination.page} of {pagination.pages}</span>
+                  <span className="px-4 text-body-sm text-warm-gray-600">Page {pagination.page} of {pagination.pages}</span>
                   <Button variant="outline" size="sm" onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))} disabled={pagination.page === pagination.pages}>
                     <ChevronRight className="h-4 w-4" />
                   </Button>
@@ -165,9 +167,9 @@ export default function CustomerPaymentsPage() {
           ) : (
             <Card className="text-center py-12">
               <CardContent>
-                <CreditCard className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No transactions found</h3>
-                <p className="text-gray-500 mb-6">You haven't made any payments yet</p>
+                <CreditCard className="h-16 w-16 text-warm-gray-300 mx-auto mb-4" />
+                <h3 className="text-heading-md font-medium text-charcoal-900 mb-2">No transactions found</h3>
+                <p className="text-warm-gray-500 mb-6">You haven't made any payments yet</p>
               </CardContent>
             </Card>
           )}
@@ -186,23 +188,23 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
   const status = transaction.status as TransactionStatusType;
 
   return (
-    <tr className="hover:bg-gray-50">
+    <tr>
       <td className="py-4">
-        <p className="font-medium text-gray-900">{service?.serviceName || 'Service'}</p>
+        <p className="font-medium text-charcoal-900">{service?.serviceName || 'Service'}</p>
       </td>
-      <td className="py-4 hidden md:table-cell text-gray-600">{service?.category || ''}</td>
-      <td className="py-4 hidden lg:table-cell text-gray-600">
+      <td className="py-4 hidden md:table-cell text-warm-gray-600">{service?.category || ''}</td>
+      <td className="py-4 hidden lg:table-cell text-warm-gray-600">
         <p>{appointment ? formatDate(appointment.appointmentDate) : '-'}</p>
-        <p className="text-sm">{appointment ? formatTime(appointment.timeSlot) : ''}</p>
+        <p className="text-body-sm">{appointment ? formatTime(appointment.timeSlot) : ''}</p>
       </td>
-      <td className="py-4 font-medium text-gray-900">{formatCurrency(transaction.amount, transaction.currency.toUpperCase())}</td>
+      <td className="py-4 font-medium text-charcoal-900">{formatCurrency(transaction.amount, transaction.currency.toUpperCase())}</td>
       <td className="py-4">
         <Badge variant={getStatusBadgeClass(status)}>{getStatusLabel(status)}</Badge>
       </td>
-      <td className="py-4 hidden lg:table-cell text-sm text-gray-500 font-mono">
+      <td className="py-4 hidden lg:table-cell text-body-sm text-warm-gray-500 font-mono">
         {transaction.stripeSessionId.slice(0, 20)}...
       </td>
-      <td className="py-4 text-gray-600">{formatDate(transaction.createdAt)}</td>
+      <td className="py-4 text-warm-gray-600">{formatDate(transaction.createdAt)}</td>
     </tr>
   );
 }
@@ -210,13 +212,13 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
 function TransactionRowSkeleton() {
   return (
     <tr className="animate-pulse">
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-3/4" /></td>
-      <td className="py-4 hidden md:table-cell"><div className="h-4 bg-gray-200 rounded w-24" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-gray-200 rounded w-24" /><div className="h-3 bg-gray-200 rounded w-16 mt-1" /></td>
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4"><div className="h-5 bg-gray-200 rounded w-20" /></td>
-      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-gray-200 rounded w-24" /></td>
-      <td className="py-4"><div className="h-4 bg-gray-200 rounded w-24" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-3/4" /></td>
+      <td className="py-4 hidden md:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-24" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-24" /><div className="h-3 bg-warm-gray-200 rounded w-16 mt-1" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4"><div className="h-5 bg-warm-gray-200 rounded w-20" /></td>
+      <td className="py-4 hidden lg:table-cell"><div className="h-4 bg-warm-gray-200 rounded w-24" /></td>
+      <td className="py-4"><div className="h-4 bg-warm-gray-200 rounded w-24" /></td>
     </tr>
   );
 }
