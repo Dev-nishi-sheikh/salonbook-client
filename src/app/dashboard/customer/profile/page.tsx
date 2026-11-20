@@ -27,7 +27,7 @@ export default function CustomerProfilePage() {
       setFormData({
         name: user.name || '',
         image: user.image || '',
-        phone: '',
+        phone: user.phone || '',
       });
       setPreviewImage(user.image || null);
     }

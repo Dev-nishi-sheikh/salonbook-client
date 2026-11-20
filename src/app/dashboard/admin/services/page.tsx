@@ -86,7 +86,8 @@ export default function AdminServicesPage() {
     else if (formData.description.length < 10) errors.description = 'Description must be at least 10 characters';
     if (formData.price <= 0) errors.price = 'Price must be positive';
     if (formData.duration <= 0) errors.duration = 'Duration must be positive';
-    if (!formData.imageFile && !formData.image.trim()) errors.image = 'Image is required (upload file or provide URL)';
+    // Image upload is required when creating; when editing, an existing image is kept.
+    if (!editingService && !formData.imageFile) errors.image = 'Please upload an image';
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -137,7 +138,9 @@ export default function AdminServicesPage() {
     try {
       const formDataObj = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (key !== 'imageFile' && value !== null && value !== undefined) {
+        // `image` is only appended as an uploaded file below; sending the stored
+        // URL here would overwrite a newly uploaded image with the old URL.
+        if (key !== 'imageFile' && key !== 'image' && value !== null && value !== undefined) {
           formDataObj.append(key, value.toString());
         }
       });
@@ -426,19 +429,11 @@ export default function AdminServicesPage() {
                     className="w-full px-4 py-3 rounded-xl border border-warm-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100"
                   />
                 </div>
-              </div>
-              <div>
-                <label className="label">Or Enter Image URL</label>
-                <div className="relative">
-                  <input
-                    type="url"
-                    value={formData.image}
-                    onChange={e => { setFormData(prev => ({ ...prev, image: e.target.value, imageFile: null })); setPreviewImage(e.target.value || null); }}
-                    placeholder="https://example.com/image.jpg"
-                    className="input pl-10"
-                  />
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-gray-400">https://</span>
-                </div>
+                <p className="helper-text">
+                  {editingService
+                    ? 'Upload a new file to replace the current image, or leave empty to keep it.'
+                    : 'Upload a JPG, PNG or WEBP image for this service.'}
+                </p>
               </div>
               {formErrors.image && <p className="error-text">{formErrors.image}</p>}
               {(previewImage || formData.imageFile) && (

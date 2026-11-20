@@ -69,6 +69,16 @@ export default function ServiceDetailsPage() {
     }
   };
 
+  // Service details are a protected route: unauthenticated visitors are sent to
+  // the sign-in page and returned here after a successful login.
+  const currentPath = `/services/${serviceId}`;
+  useEffect(() => {
+    if (authLoading) return;
+    if (!isAuthenticated) {
+      router.replace(`/auth/signin?callbackUrl=${encodeURIComponent(currentPath)}`);
+    }
+  }, [authLoading, isAuthenticated, router, currentPath]);
+
   const validateBookingForm = () => {
     const newErrors: Record<string, string> = {};
     if (!bookingForm.appointmentDate) newErrors.appointmentDate = 'Please select a date';

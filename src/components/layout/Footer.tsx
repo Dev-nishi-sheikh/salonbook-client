@@ -2,27 +2,19 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Share2, Globe, MessageSquare, MapPin, Clock, Phone, Mail } from 'lucide-react';
+import { MapPin, Clock, Phone, Mail } from 'lucide-react';
 
 export function Footer() {
   const navigationLinks = {
     QuickLinks: [
       { name: 'Home', href: '/' },
       { name: 'Browse Services', href: '/browse' },
-      { name: 'About Us', href: '#' },
-      { name: 'Contact', href: '#' },
     ],
     Services: [
-      { name: 'Haircut & Styling', href: '/browse?category=Haircut & Styling' },
-      { name: 'Hair Coloring', href: '/browse?category=Hair Coloring' },
-      { name: 'Facial & Skincare', href: '/browse?category=Facial & Skincare' },
-      { name: 'Spa & Massage', href: '/browse?category=Spa & Massage' },
-    ],
-    Support: [
-      { name: 'FAQ', href: '#' },
-      { name: 'Privacy Policy', href: '#' },
-      { name: 'Terms of Service', href: '#' },
-      { name: 'Booking Policy', href: '#' },
+      { name: 'Haircut & Styling', href: `/browse?category=${encodeURIComponent('Haircut & Styling')}` },
+      { name: 'Hair Coloring', href: `/browse?category=${encodeURIComponent('Hair Coloring')}` },
+      { name: 'Facial & Skincare', href: `/browse?category=${encodeURIComponent('Facial & Skincare')}` },
+      { name: 'Spa & Massage', href: `/browse?category=${encodeURIComponent('Spa & Massage')}` },
     ],
   };
 
@@ -33,16 +25,12 @@ export function Footer() {
     hours: 'Mon - Fri: 9:00 AM - 7:00 PM\nSat: 10:00 AM - 6:00 PM\nSun: Closed',
   };
 
-  const socialLinks = [
-    { name: 'Share', href: '#', icon: Share2 },
-    { name: 'Website', href: '#', icon: Globe },
-    { name: 'Contact', href: '#', icon: MessageSquare },
-  ];
+  // Only links with a real destination are rendered; no placeholder "#" links.
 
   return (
     <footer className="bg-charcoal-900 text-warm-gray-300">
       <div className="container-main py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 text-xl font-bold text-white mb-4">
               <span className="font-display">SalonBook</span>
@@ -50,20 +38,6 @@ export function Footer() {
             <p className="text-warm-gray-400 max-w-sm mb-6 leading-relaxed">
               Your premier destination for professional salon services. Book appointments online with ease and enjoy exceptional beauty experiences.
             </p>
-            <div className="flex gap-4">
-              {socialLinks.map(social => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200"
-                  aria-label={social.name}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <social.icon className="h-5 w-5" />
-                </a>
-              ))}
-            </div>
           </div>
 
           <div>
@@ -124,13 +98,6 @@ export function Footer() {
             <p className="text-warm-gray-400 text-body-sm">
               © {new Date().getFullYear()} SalonBook. All rights reserved.
             </p>
-            <div className="flex items-center gap-6">
-              {navigationLinks.Support.map(link => (
-                <Link key={link.name} href={link.href} className="text-warm-gray-400 hover:text-rose-300 transition-colors duration-200 text-body-sm">
-                  {link.name}
-                </Link>
-              ))}
-            </div>
           </div>
         </div>
       </div>

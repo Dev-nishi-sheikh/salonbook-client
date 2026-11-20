@@ -32,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           name: session.user.name,
           email: session.user.email,
           image: session.user.image || undefined,
+          phone: (session.user as any).phone || undefined,
           role: (session.user as any).role || 'customer',
           isBlocked: (session.user as any).isBlocked || false,
           emailVerified: session.user.emailVerified || false,
