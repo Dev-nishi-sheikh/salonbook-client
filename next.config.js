@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  // output: 'standalone', // Disabled for Vercel deployment (Vercel handles this natively)
   images: {
     domains: ['i.ibb.co', 'images.unsplash.com', 'lh3.googleusercontent.com'],
   },

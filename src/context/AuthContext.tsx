@@ -44,6 +44,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
         setState({ user, isLoading: false, isAuthenticated: true });
       } else {
+        // Fallback to JWT token if Better Auth session cookie is not present (e.g. email/password login)
+        const token = tokenStorage.get();
+        if (token) {
+          const meRes = await api.client.get('/auth/me');
+          if (meRes.data?.success && meRes.data?.data) {
+            setState({ user: meRes.data.data, isLoading: false, isAuthenticated: true });
+            return;
+          }
+        }
         setState({ user: null, isLoading: false, isAuthenticated: false });
       }
     } catch {
