@@ -12,7 +12,7 @@ import { Card, CardContent } from '@/components/ui/Card';
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { refreshUser } = useAuth();
+  const { refreshUser, fetchTokenAfterGoogle } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isWorking, setIsWorking] = useState(true);
   const hasRun = useRef(false);
@@ -39,6 +39,7 @@ function AuthCallbackContent() {
 
       const { data } = await getSession();
       if (data?.user) {
+        await fetchTokenAfterGoogle();
         const role = (data.user as { role?: string }).role;
         router.replace(role === 'admin' ? '/dashboard/admin/overview' : '/dashboard/customer/overview');
         return;
@@ -49,7 +50,7 @@ function AuthCallbackContent() {
     };
 
     handleCallback();
-  }, [refreshUser, router, searchParams]);
+  }, [refreshUser, fetchTokenAfterGoogle, router, searchParams]);
 
   if (isWorking) {
     return (

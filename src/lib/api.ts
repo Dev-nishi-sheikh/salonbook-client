@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { ApiResponse, User, Service, Appointment, Transaction, PaginationParams } from '@/types';
+import { tokenStorage } from './auth-tokens';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -15,12 +16,22 @@ class ApiClient {
       withCredentials: true,
     });
 
+    this.client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+      const token = tokenStorage.get();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+
     this.client.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
         if (error.response?.status === 401) {
+          tokenStorage.clear();
           if (typeof window !== 'undefined') {
-            window.location.href = '/auth/signin';
+            const callbackUrl = encodeURIComponent(window.location.pathname + window.location.search);
+            window.location.href = `/auth/signin?callbackUrl=${callbackUrl}`;
           }
         }
         return Promise.reject(error);
